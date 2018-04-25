@@ -44,7 +44,7 @@ public class Controller {
 				int lastStockAddedIndex = stockList.size() - 1;
 				System.out.println(stockList.size());
 				new StockMonitor(stockList.get(lastStockAddedIndex));
-				stockList.get(0).fetchData();
+				stockList.get(lastStockAddedIndex).fetchData();
 				if (!stockMonitoring) {
 					stockMonitoring = true;
 					startTimer();
