@@ -39,7 +39,6 @@ public class Controller {
 			String inputText = "";
 			System.out.println("Button clicked");
 			try {
-				inputText = view.getInputTexet();
 				System.out.println(inputText);
 				stockList.add(new Stock(inputText));
 				int lastStockAddedIndex = stockList.size() - 1;
