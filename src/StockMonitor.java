@@ -26,6 +26,8 @@ public class StockMonitor implements Observer {
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
+	
+		stock.fetchData();
 	}
 	
 	@Override
