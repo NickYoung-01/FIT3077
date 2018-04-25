@@ -1,3 +1,7 @@
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+
 import javax.swing.*;
 
 public class StockMonitor implements Observer {
@@ -11,23 +15,36 @@ public class StockMonitor implements Observer {
 		this.stock.registerObserver(this);
 		
 		frame = new JFrame(stock.getSymbol() + " Monitor");
-		frame.setSize(600, 200);
+//		frame.setSize(600, 200);
+		
+		//Need to access os in order to get screen size, toolkit gives us that access
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		//get the dimenions of our screen size
+		Dimension dim = toolkit.getScreenSize();
+		//the below coordinates will center the screen
+		int xCord = (dim.width / 2) - (frame.getWidth() / 2);
+		int yCor = (dim.height / 2) + (frame.getHeight() / 2);
+		frame.setLocation(xCord, yCor);
+		
 		JPanel panel = new JPanel();
 		symbolLabel = new JLabel("Symbol: " + stock.getSymbol());
 		lastPriceLabel = new JLabel("Last Price:");
 		dateLabel = new JLabel("Date: ");
 		timeLabel = new JLabel("Time: ");
 		
+		panel.setLayout(new GridLayout(0,1));
 		panel.add(symbolLabel);
 		panel.add(lastPriceLabel);
 		panel.add(dateLabel);
 		panel.add(timeLabel);
 		
+		stock.fetchData();
+		
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
 	
-		stock.fetchData();
+		
 	}
 	
 	@Override
