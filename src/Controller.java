@@ -39,8 +39,11 @@ public class Controller {
 			System.out.println("Button clicked");
 			try {
 				inputText = view.getInputTexet();
+				System.out.println(inputText);
 				stockList.add(new Stock(inputText));
-				new StockMonitor(stockList.get(0));
+				int lastStockAddedIndex = stockList.size() - 1;
+				System.out.println(stockList.size());
+				new StockMonitor(stockList.get(lastStockAddedIndex));
 				stockList.get(0).fetchData();
 				if (!stockMonitoring) {
 					stockMonitoring = true;
