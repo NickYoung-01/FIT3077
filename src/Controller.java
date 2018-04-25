@@ -11,6 +11,7 @@ public class Controller {
 	private MainView view;
 	private List<Stock> stockList = new ArrayList<Stock>();
 	private boolean stockMonitoring = false;
+	int MINUTES = 1;
 	
 	public Controller(MainView view) {
 		this.view = view;
@@ -28,7 +29,7 @@ public class Controller {
 		    		}
 		    		System.out.println("----------------------------------------");
 		    }
-		 }, 0, 5000);
+		 }, 0, 1000 * 60 * MINUTES);
 	}
 	
 	class MonitorListener implements ActionListener {
