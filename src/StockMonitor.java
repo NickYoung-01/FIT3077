@@ -1,6 +1,8 @@
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
@@ -20,6 +22,12 @@ public class StockMonitor implements Observer {
 		this.stock.registerObserver(this);
 		
 		frame = new JFrame(stock.getSymbol() + " Monitor");
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent event) {
+				closeWindow();
+			}
+		});
 //		frame.setSize(600, 200);
 		
 		//Need to access os in order to get screen size, toolkit gives us that access
@@ -58,6 +66,11 @@ public class StockMonitor implements Observer {
 		lastPriceLabel.setText("Last Price: " + stock.getLastTrade());
 		dateLabel.setText("Date: " + stock.getDate());
 		timeLabel.setText("Time: " + stock.getTime());
+	}
+	
+	public void closeWindow() {
+		stock.removeObserver(this);
+		frame.dispose();
 	}
 
 }
