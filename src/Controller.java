@@ -8,7 +8,6 @@ import java.util.TimerTask;
 
 public class Controller {
 	
-	private String test_git = "hello";
 	private MainView view;
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
