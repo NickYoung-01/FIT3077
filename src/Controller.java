@@ -12,7 +12,7 @@ public class Controller {
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
 	private boolean stockMonitoring = false;
-	int MINUTES = 1;
+	int MINUTES = 5;
 	
 	public Controller(MainView view) {
 		this.view = view;
