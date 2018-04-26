@@ -12,11 +12,6 @@ public class StockMonitor implements Observer {
 	private JLabel symbolLabel, lastPriceLabel, dateLabel, timeLabel;
 	private JFrame frame;
 	
-	/*
-	 * TODO:
-	 * REMOVE ME FROM THE OBSERVER LIST WHEN I CLOSE
-	 */
-	
 	public StockMonitor(Stock stock) {
 		this.stock = stock;
 		this.stock.registerObserver(this);
