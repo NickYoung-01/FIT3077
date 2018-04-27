@@ -1,4 +1,7 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import stockquoteservice.*;
@@ -76,11 +79,19 @@ public class Stock implements Subject {
 		this.lastTrade = lastTrade;
 	}
 
+	/*
+	 * Find better way to do this..maybe use simpledateformat?
+	 */
 	public String getDate() {
+		int spaceIndex = date.indexOf("T");
+		if (spaceIndex != -1)
+		{
+		    date = date.substring(0, spaceIndex);
+		}
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(String date) { 
 		this.date = date;
 	}
 
