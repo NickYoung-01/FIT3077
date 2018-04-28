@@ -12,7 +12,6 @@ public class Controller {
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
 	private boolean stockMonitoring = false;
-	int MINUTES = 5;
 	
 	public Controller(MainView view) {
 		this.view = view;
@@ -27,7 +26,7 @@ public class Controller {
 	 * Else if we want them all to access the webservice at the same time, controller should manage timer
 	 */
 	
-	public void startTimer(int timeInterval) {
+	public void startTimer(int minuteInterval) {
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 		    @Override
@@ -37,7 +36,7 @@ public class Controller {
 		    		}
 		    		System.out.println("----------------------------------------");
 		    }
-		 }, 0, 1000 * 60 * timeInterval);
+		 }, 0, 1000 * 60 * minuteInterval);
 	}
 	
 	public boolean stockExists(String inputText) {
@@ -59,18 +58,19 @@ public class Controller {
 			System.out.println("Button clicked");
 			try {
 				inputText = view.getInputText();
-				System.out.println(inputText);
+				//the stock exists, so just add another observer to it
 				if (stockExists(inputText)) {
 					new StockMonitor(stockList.get(existingIndex));
 				} else {
+					//stock doesn't exists, create a new stock and monitor
 					stockList.add(new Stock(inputText));
 					int lastStockAddedIndex = stockList.size() - 1;
-					System.out.println(stockList.size());
 					new StockMonitor(stockList.get(lastStockAddedIndex));
 				}
+				//if this monitor is our first monitor start the timer for data retrieval 
 				if (!stockMonitoring) {
 					stockMonitoring = true;
-					startTimer(MINUTES);
+					startTimer(5);
 				}
 			} catch (Exception ex) {
 				System.out.println(ex);
