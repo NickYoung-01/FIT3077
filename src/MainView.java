@@ -28,6 +28,7 @@ public class MainView extends JFrame {
 		mainViewPanel.add(stockInputField);
 		mainViewPanel.add(monitorStockButton);
 		
+		//adding the panel to the jframe
 		this.add(mainViewPanel);
 	}
 	
@@ -35,6 +36,7 @@ public class MainView extends JFrame {
 		return stockInputField.getText();
 	}
 	
+	//Creates a listener for the button.
 	void addMonitorButtonListener(ActionListener listenForMonitorButton) {
 		monitorStockButton.addActionListener(listenForMonitorButton);
 	}
