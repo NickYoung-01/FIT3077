@@ -71,8 +71,6 @@ public class Controller {
 				if (!stockMonitoring) {
 					stockMonitoring = true;
 					startTimer(MINUTES);
-				} else if (stockMonitoring) {
-					startTimer(1);
 				}
 			} catch (Exception ex) {
 				System.out.println(ex);

@@ -1,7 +1,4 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import stockquoteservice.*;
@@ -22,11 +19,13 @@ public class Stock implements Subject {
 		this.port = service.getStockQuoteWSSOAP11PortHttp();
 	}
 	
+	//Get the data from the webservice
 	public void fetchData() {
-		List quoteData = port.getQuote(symbol);
+		List<String> quoteData = port.getQuote(symbol);
 		setLastTrade((String) quoteData.get(1));
 		setDate((String) quoteData.get(2));
 		setTime((String) quoteData.get(3));
+		//tell our observer's that we have new info
 		updateObserver();
 	}
 
