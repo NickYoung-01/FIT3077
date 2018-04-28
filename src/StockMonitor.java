@@ -17,6 +17,11 @@ public class StockMonitor implements Observer {
 		this.stock.registerObserver(this);
 		
 		frame = new JFrame(stock.getSymbol() + " Monitor");
+		
+		/*
+		 * When user closes monitor the observe should be removed.
+		 * Meaning we want to handle closing the JFrame in our own way.
+		 */
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent event) {
@@ -49,7 +54,6 @@ public class StockMonitor implements Observer {
 		stock.fetchData();
 		
 		frame.add(panel);
-//		frame.pack();
 		frame.setVisible(true);
 	
 		
@@ -65,6 +69,7 @@ public class StockMonitor implements Observer {
 	
 	public void closeWindow() {
 		stock.removeObserver(this);
+		//closes the JFrame
 		frame.dispose();
 	}
 
