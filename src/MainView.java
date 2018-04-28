@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class MainView extends JFrame {
 
-	private int text;
+	private int test;
 	private JTextField stockInputField = new JTextField(10);
 	private JButton monitorStockButton = new JButton("Monitor");
 	
