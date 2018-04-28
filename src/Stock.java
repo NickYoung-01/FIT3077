@@ -6,22 +6,20 @@ import stockquoteservice.*;
 public class Stock implements Subject {
 
 	private List<Observer> observers = new ArrayList<Observer>();
-	private StockQuoteWS service;
-	private StockQuoteWSPortType port;
 	private String symbol;
 	private String lastTrade;
 	private String date;
 	private String time;
+	private ServerAbstract server;
 	
-	public Stock(String symbol) {
+	public Stock(String symbol, ServerAbstract server) {
+		this.server = server;
 		this.symbol = symbol;
-		this.service = new StockQuoteWS();
-		this.port = service.getStockQuoteWSSOAP11PortHttp();
 	}
 	
 	//Get the data from the webservice
 	public void fetchData() {
-		List<String> quoteData = port.getQuote(symbol);
+		List<String> quoteData = this.server.getQuote(symbol);
 		setLastTrade((String) quoteData.get(1));
 		setDate((String) quoteData.get(2));
 		setTime((String) quoteData.get(3));
@@ -46,20 +44,12 @@ public class Stock implements Subject {
 		}
 	}
 
-	public StockQuoteWS getService() {
-		return service;
+	public ServerAbstract getServer() {
+		return this.server;
 	}
 
-	public void setService(StockQuoteWS service) {
-		this.service = service;
-	}
-
-	public StockQuoteWSPortType getPort() {
-		return port;
-	}
-
-	public void setPort(StockQuoteWSPortType port) {
-		this.port = port;
+	public void setService(ServerAbstract server) {
+		this.server = server;
 	}
 
 	public String getSymbol() {
@@ -80,14 +70,21 @@ public class Stock implements Subject {
 
 	/*
 	 * Find better way to do this..maybe use simpledateformat?
+	 * 
 	 */
 	public String getDate() {
+		/*	
 		int spaceIndex = date.indexOf("T");
 		if (spaceIndex != -1)
 		{
 		    date = date.substring(0, spaceIndex);
 		}
 		return date;
+		*/
+		
+		//date in format of yyyy-mm-dd
+		return date.substring(0, 10);
+
 	}
 
 	public void setDate(String date) { 

@@ -12,6 +12,7 @@ public class Controller {
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
 	private boolean stockMonitoring = false;
+	private ServerWSDL serverWSDL = new ServerWSDL();
 	
 	public Controller(MainView view) {
 		this.view = view;
@@ -50,6 +51,10 @@ public class Controller {
 		return false;
 	}
 	
+	public Stock createStock(String symbol){
+		return new Stock(symbol, this.serverWSDL);
+	}
+	
 	class MonitorListener implements ActionListener {
 
 		@Override
@@ -63,7 +68,7 @@ public class Controller {
 					new StockMonitor(stockList.get(existingIndex));
 				} else {
 					//stock doesn't exists, create a new stock and monitor
-					stockList.add(new Stock(inputText));
+					stockList.add(createStock(inputText));
 					int lastStockAddedIndex = stockList.size() - 1;
 					new StockMonitor(stockList.get(lastStockAddedIndex));
 				}
