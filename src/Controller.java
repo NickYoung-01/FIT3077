@@ -20,7 +20,14 @@ public class Controller {
 		this.view.addMonitorButtonListener(new MonitorListener());
 	}
 	
-	public void startTimer() {
+	/*
+	 * We need to potentially have two timers dependent on the service provided
+	 * If the stocks themselves manage the time (ie 5mins for each stock, not 5mins in general) then
+	 * in the stock class they should have the timer.
+	 * Else if we want them all to access the webservice at the same time, controller should manage timer
+	 */
+	
+	public void startTimer(int timeInterval) {
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 		    @Override
@@ -30,7 +37,7 @@ public class Controller {
 		    		}
 		    		System.out.println("----------------------------------------");
 		    }
-		 }, 0, 1000 * 60 * MINUTES);
+		 }, 0, 1000 * 60 * timeInterval);
 	}
 	
 	public boolean stockExists(String inputText) {
@@ -63,7 +70,9 @@ public class Controller {
 				}
 				if (!stockMonitoring) {
 					stockMonitoring = true;
-					startTimer();
+					startTimer(MINUTES);
+				} else if (stockMonitoring) {
+					startTimer(1);
 				}
 			} catch (Exception ex) {
 				System.out.println(ex);
