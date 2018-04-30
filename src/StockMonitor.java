@@ -3,6 +3,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -29,14 +30,15 @@ public class StockMonitor implements Observer {
 			}
 		});
 		frame.setSize(200, 200);
+		Random rand = new Random();
 		
 		//Need to access os in order to get screen size, toolkit gives us that access
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		//get the dimenions of our screen size
 		Dimension dim = toolkit.getScreenSize();
 		//the below coordinates will center the screen
-		int xCord = (dim.width / 2) - (frame.getWidth() / 2);
-		int yCor = (dim.height / 2) + (frame.getHeight() / 2);
+		int xCord = ((dim.width / 2) - (frame.getWidth() / 2)) + 255;
+		int yCor = ((dim.height / 2) + (frame.getHeight() / 2)) - 150;
 		frame.setLocation(xCord, yCor);
 		
 		JPanel panel = new JPanel();
