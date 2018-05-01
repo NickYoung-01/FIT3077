@@ -62,7 +62,8 @@ public class Controller {
 			String inputText = "";
 			System.out.println("Button clicked");
 			try {
-				inputText = view.getInputText();
+				//get input text and convert to upper case
+				inputText = view.getInputText().toUpperCase();
 				//the stock exists, so just add another observer to it
 				if (stockExists(inputText)) {
 					new StockMonitor(stockList.get(existingIndex));

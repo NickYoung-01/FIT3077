@@ -28,7 +28,7 @@ public class StockMonitor implements Observer {
 				closeWindow();
 			}
 		});
-		frame.setSize(200, 200);
+		frame.setSize(400, 200);
 		
 		//Need to access os in order to get screen size, toolkit gives us that access
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
