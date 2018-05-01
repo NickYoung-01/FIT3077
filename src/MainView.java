@@ -27,11 +27,7 @@ public class MainView extends JFrame {
 		int yCor = (dim.height / 2) - (this.getHeight() / 2);
 		this.setLocation(xCord, yCor);
 		this.setResizable(false);
-		
-		JLabel title = new JLabel("Stock Monitor");
-		title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-		
-		mainViewPanel.add(title);
+	
 		mainViewPanel.add(stockInputField);
 		mainViewPanel.add(monitorStockButton);
 		
