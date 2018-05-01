@@ -15,6 +15,7 @@ public class Stock implements Subject {
 	public Stock(String symbol, ServerAbstract server) {
 		this.server = server;
 		this.symbol = symbol;
+		fetchData();
 	}
 	
 	//Get the data from the webservice

@@ -52,8 +52,8 @@ public class StockMonitor implements Observer {
 		panel.add(lastPriceLabel);
 		panel.add(dateLabel);
 		panel.add(timeLabel);
-		
-		stock.fetchData();
+
+		update();
 		
 		frame.add(panel);
 		frame.setVisible(true);
