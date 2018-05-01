@@ -13,6 +13,7 @@ public class Stock implements Subject {
 	private String date;
 	private String time;
 	private int timerMinutes;
+	private boolean timerCanFetchData = false;
 	private ServerAbstract server;
 	public Timer timer;
 	
@@ -20,8 +21,8 @@ public class Stock implements Subject {
 		this.server = server;
 		this.symbol = symbol;
 		this.timerMinutes = timerMinutes;
-		startTimer(timerMinutes);
 		fetchData();
+		startTimer(timerMinutes);
 	}
 	
 	//Get the data from the webservice
@@ -30,6 +31,7 @@ public class Stock implements Subject {
 		setLastTrade((String) quoteData.get(1));
 		setDate((String) quoteData.get(2));
 		setTime((String) quoteData.get(3));
+		updateObserver();
 	}
 
 	@Override
@@ -54,11 +56,11 @@ public class Stock implements Subject {
 		timer.schedule(new TimerTask() {
 		    @Override
 		    public void run() { 
+		    	if (!timerCanFetchData) {
+		    		timerCanFetchData = true;
+		    	} else {
 		    		fetchData();	
-		    		if (observers.size() > 0) {
-		    			updateObserver();
-		    		}
-//		    		updateObserver();
+		    	}
 		    		System.out.println(observers.size());
 		    		System.out.println("----------------------------------------");
 		    }

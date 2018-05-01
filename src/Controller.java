@@ -11,7 +11,6 @@ public class Controller {
 	private MainView view;
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
-	private boolean stockMonitoring = false;
 	private ServerWSDL serverWSDL = new ServerWSDL();
 	
 	public Controller(MainView view) {
@@ -19,19 +18,6 @@ public class Controller {
 		
 		this.view.addMonitorButtonListener(new MonitorListener());
 	}
-	
-//	public void startTimer(int minuteInterval) {
-//		Timer timer = new Timer();
-//		timer.schedule(new TimerTask() {
-//		    @Override
-//		    public void run() { 
-//		    		for (int i = 0; i < stockList.size(); i++) {
-//		    			stockList.get(i).fetchData();
-//		    		}
-//		    		System.out.println("----------------------------------------");
-//		    }
-//		 }, 0, 1000 * 60 * minuteInterval);
-//	}
 	
 	public boolean stockExists(String inputText) {
 		for (int i = 0; i < stockList.size(); i++) {
