@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import stockquoteservice.*;
 
@@ -10,11 +12,15 @@ public class Stock implements Subject {
 	private String lastTrade;
 	private String date;
 	private String time;
+	private int timerMinutes;
 	private ServerAbstract server;
+	public Timer timer;
 	
-	public Stock(String symbol, ServerAbstract server) {
+	public Stock(String symbol, ServerAbstract server, int timerMinutes) {
 		this.server = server;
 		this.symbol = symbol;
+		this.timerMinutes = timerMinutes;
+		startTimer(timerMinutes);
 		fetchData();
 	}
 	
@@ -24,8 +30,6 @@ public class Stock implements Subject {
 		setLastTrade((String) quoteData.get(1));
 		setDate((String) quoteData.get(2));
 		setTime((String) quoteData.get(3));
-		//tell our observer's that we have new info
-		updateObserver();
 	}
 
 	@Override
@@ -43,6 +47,22 @@ public class Stock implements Subject {
 		for (Observer observer : observers) {
 			observer.update();
 		}
+	}
+	
+	public void startTimer(int timerMinutes) {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+		    @Override
+		    public void run() { 
+		    		fetchData();	
+		    		if (observers.size() > 0) {
+		    			updateObserver();
+		    		}
+//		    		updateObserver();
+		    		System.out.println(observers.size());
+		    		System.out.println("----------------------------------------");
+		    }
+		 }, 0, 1000 * 60 * timerMinutes);
 	}
 
 	public ServerAbstract getServer() {

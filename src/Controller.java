@@ -20,25 +20,18 @@ public class Controller {
 		this.view.addMonitorButtonListener(new MonitorListener());
 	}
 	
-	/*
-	 * We need to potentially have two timers dependent on the service provided
-	 * If the stocks themselves manage the time (ie 5mins for each stock, not 5mins in general) then
-	 * in the stock class they should have the timer.
-	 * Else if we want them all to access the webservice at the same time, controller should manage timer
-	 */
-	
-	public void startTimer(int minuteInterval) {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-		    @Override
-		    public void run() { 
-		    		for (int i = 0; i < stockList.size(); i++) {
-		    			stockList.get(i).fetchData();
-		    		}
-		    		System.out.println("----------------------------------------");
-		    }
-		 }, 0, 1000 * 60 * minuteInterval);
-	}
+//	public void startTimer(int minuteInterval) {
+//		Timer timer = new Timer();
+//		timer.schedule(new TimerTask() {
+//		    @Override
+//		    public void run() { 
+//		    		for (int i = 0; i < stockList.size(); i++) {
+//		    			stockList.get(i).fetchData();
+//		    		}
+//		    		System.out.println("----------------------------------------");
+//		    }
+//		 }, 0, 1000 * 60 * minuteInterval);
+//	}
 	
 	public boolean stockExists(String inputText) {
 		for (int i = 0; i < stockList.size(); i++) {
@@ -52,7 +45,7 @@ public class Controller {
 	}
 	
 	public Stock createStock(String symbol){
-		return new Stock(symbol, this.serverWSDL);
+		return new Stock(symbol, this.serverWSDL, 1);
 	}
 	
 	class MonitorListener implements ActionListener {
@@ -71,11 +64,6 @@ public class Controller {
 					stockList.add(createStock(inputText));
 					int lastStockAddedIndex = stockList.size() - 1;
 					new StockMonitor(stockList.get(lastStockAddedIndex));
-				}
-				//if this monitor is our first monitor start the timer for data retrieval 
-				if (!stockMonitoring) {
-					stockMonitoring = true;
-					startTimer(5);
 				}
 			} catch (Exception ex) {
 				System.out.println(ex);
