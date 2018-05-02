@@ -1,18 +1,13 @@
 
 public class Main {
 	
-	/*
-	 * TODO:
-	 * 3. Cacnel the timer when all monitors are closed
-	 */
-	
 	public static void main(String[] args) {
-		MainView view = new MainView();
+		//Controller takes a view as it's parameter
+		HomeView view = new HomeView();
 		Controller controller = new Controller(view);
 		
+		//Make the HomeView visible
 		view.setVisible(true);
-		
-		
 	}
 
 }

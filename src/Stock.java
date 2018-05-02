@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import stockquoteservice.*;
 
@@ -10,11 +12,16 @@ public class Stock implements Subject {
 	private String lastTrade;
 	private String date;
 	private String time;
+	private boolean timerCanFetchData = false;
+	private int timerMinutes;
 	private ServerAbstract server;
+	public Timer timer;
 	
-	public Stock(String symbol, ServerAbstract server) {
+	public Stock(String symbol, ServerAbstract server, int timerMinutes) {
 		this.server = server;
 		this.symbol = symbol;
+		this.timerMinutes = timerMinutes;
+		fetchData();
 	}
 	
 	//Get the data from the webservice
@@ -23,18 +30,26 @@ public class Stock implements Subject {
 		setLastTrade((String) quoteData.get(1));
 		setDate((String) quoteData.get(2));
 		setTime((String) quoteData.get(3));
-		//tell our observer's that we have new info
 		updateObserver();
 	}
 
 	@Override
 	public void registerObserver(Observer o) {
+		//if this is the first observer being added start the timer
+		if (observers.isEmpty()) {
+			startTimer(timerMinutes);
+		}
 		observers.add(o);
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
 		observers.remove(o);
+		//if there is no more observers left stop fetching data
+		if (observers.isEmpty()) {
+			timer.cancel();
+			timerCanFetchData = false;
+		}
 	}
 
 	@Override
@@ -42,6 +57,22 @@ public class Stock implements Subject {
 		for (Observer observer : observers) {
 			observer.update();
 		}
+	}
+	
+	public void startTimer(int timerMinutes) {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+		    @Override
+		    public void run() { 
+		    		System.out.println("im in the timer");
+			    	if (!timerCanFetchData) {
+			    		timerCanFetchData = true;
+			    	} else {
+			    		fetchData();	
+			    	}
+		    }
+		    //Perform run every timerMinutes, i.e every 5 minutes
+		 }, 0, 1000 * 60 * timerMinutes);
 	}
 
 	public ServerAbstract getServer() {
@@ -56,10 +87,6 @@ public class Stock implements Subject {
 		return symbol;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
-
 	public String getLastTrade() {
 		return lastTrade;
 	}
@@ -67,21 +94,8 @@ public class Stock implements Subject {
 	public void setLastTrade(String lastTrade) {
 		this.lastTrade = lastTrade;
 	}
-
-	/*
-	 * Find better way to do this..maybe use simpledateformat?
-	 * 
-	 */
+	
 	public String getDate() {
-		/*	
-		int spaceIndex = date.indexOf("T");
-		if (spaceIndex != -1)
-		{
-		    date = date.substring(0, spaceIndex);
-		}
-		return date;
-		*/
-		
 		//date in format of yyyy-mm-dd
 		return date.substring(0, 10);
 

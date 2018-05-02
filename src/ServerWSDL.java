@@ -8,19 +8,15 @@ public class ServerWSDL extends ServerAbstract{
 	
 	private StockQuoteWS quote;
 	private StockQuoteWSPortType quotePort;
-	private GetFieldNamesResponse fieldsResponse;
-	private List<String> fieldNames;
 	
 	public ServerWSDL() {
 		quote = new StockQuoteWS();
-		this.quotePort =quote.getStockQuoteWSSOAP11PortHttp();
-		fieldsResponse = quotePort.getFieldNames();
-		this.fieldNames = fieldsResponse.getReturn();
+		this.quotePort = quote.getStockQuoteWSSOAP11PortHttp();
 	}
 	
 	@Override
 	public List<String> getFieldNames() {
-		return this.fieldNames;
+		return quotePort.getFieldNames().getReturn();
 	}
 
 	@Override
