@@ -19,16 +19,15 @@ public class StockMonitor implements Observer {
 		
 		frame = new JFrame(stock.getSymbol() + " Monitor");
 		
-		/*
-		 * When user closes monitor the observe should be removed.
-		 * Meaning we want to handle closing the JFrame in our own way.
-		 */
+		//We want to perform our own closing action
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		//Add a listener to the close button
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent event) {
 				closeWindow();
 			}
 		});
+		
 		frame.setSize(200, 200);
 		Random rand = new Random();
 		
@@ -37,8 +36,8 @@ public class StockMonitor implements Observer {
 		//get the dimenions of our screen size
 		Dimension dim = toolkit.getScreenSize();
 		//the below coordinates will center the screen
-		int xCord = ((dim.width / 2) - (frame.getWidth() / 2)) + 255;
-		int yCor = ((dim.height / 2) + (frame.getHeight() / 2)) - 150;
+		int xCord = ((dim.width / 2) - (frame.getWidth() / 2)) + 255 + rand.nextInt(50);
+		int yCor = ((dim.height / 2) + (frame.getHeight() / 2)) - 150 - rand.nextInt(50);
 		frame.setLocation(xCord, yCor);
 		
 		JPanel panel = new JPanel();
@@ -53,12 +52,11 @@ public class StockMonitor implements Observer {
 		panel.add(dateLabel);
 		panel.add(timeLabel);
 
+		//get the initial values of the stock
 		update();
 		
 		frame.add(panel);
 		frame.setVisible(true);
-	
-		
 	}
 	
 	@Override
@@ -69,6 +67,7 @@ public class StockMonitor implements Observer {
 		timeLabel.setText("Time: " + stock.getTime());
 	}
 	
+	//Remove this observer from Stock and close JFrame
 	public void closeWindow() {
 		stock.removeObserver(this);
 		//closes the JFrame

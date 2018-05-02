@@ -21,8 +21,8 @@ public class HomeView extends JFrame {
 		Dimension dim = toolkit.getScreenSize();
 		//the below coordinates will center the screen
 		int xCord = (dim.width / 2) - (this.getWidth() / 2);
-		int yCor = (dim.height / 2) - (this.getHeight() / 2);
-		this.setLocation(xCord, yCor);
+		int yCord = (dim.height / 2) - (this.getHeight() / 2);
+		this.setLocation(xCord, yCord);
 		this.setResizable(false);
 		
 		mainViewPanel.add(stockInputField);

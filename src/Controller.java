@@ -16,13 +16,15 @@ public class Controller {
 	public Controller(HomeView view) {
 		this.view = view;
 		
+		//Assign our MonitorListener to be the listener to the Monitor Button in HomeView
 		this.view.addMonitorButtonListener(new MonitorListener());
 	}
 	
-	public boolean stockExists(String inputText) {
+	//Check if the stock exists in our stockList
+	public boolean stockIsBeingMonitored(String inputText) {
 		for (int i = 0; i < stockList.size(); i++) {
-			if (stockList.get(i).getSymbol().contains(inputText)) {
-				System.out.println("We're monitoring this stock already!");
+			if (stockList.get(i).getSymbol().equals(inputText)) {
+				//the index which contains that Symbol
 				existingIndex = i;
 				return true;
 			} 
@@ -31,19 +33,19 @@ public class Controller {
 	}
 	
 	public Stock createStock(String symbol){
-		return new Stock(symbol, this.serverWSDL, 1);
+		return new Stock(symbol, this.serverWSDL, 5);
 	}
 	
+	//This is our MonitorButton listener class
 	class MonitorListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String inputText = "";
-			System.out.println("Button clicked");
 			try {
-				inputText = view.getInputText();
+				inputText = view.getInputText().toUpperCase();
 				//the stock exists, so just add another observer to it
-				if (stockExists(inputText)) {
+				if (stockIsBeingMonitored(inputText)) {
 					new StockMonitor(stockList.get(existingIndex));
 				} else {
 					//stock doesn't exists, create a new stock and monitor

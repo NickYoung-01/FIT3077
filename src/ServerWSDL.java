@@ -11,7 +11,7 @@ public class ServerWSDL extends ServerAbstract{
 	
 	public ServerWSDL() {
 		quote = new StockQuoteWS();
-		this.quotePort =quote.getStockQuoteWSSOAP11PortHttp();
+		this.quotePort = quote.getStockQuoteWSSOAP11PortHttp();
 	}
 	
 	@Override

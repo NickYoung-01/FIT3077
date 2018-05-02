@@ -12,7 +12,6 @@ public class Stock implements Subject {
 	private String lastTrade;
 	private String date;
 	private String time;
-	private int timerMinutes;
 	private boolean timerCanFetchData = false;
 	private ServerAbstract server;
 	public Timer timer;
@@ -20,7 +19,6 @@ public class Stock implements Subject {
 	public Stock(String symbol, ServerAbstract server, int timerMinutes) {
 		this.server = server;
 		this.symbol = symbol;
-		this.timerMinutes = timerMinutes;
 		fetchData();
 		startTimer(timerMinutes);
 	}
@@ -56,14 +54,13 @@ public class Stock implements Subject {
 		timer.schedule(new TimerTask() {
 		    @Override
 		    public void run() { 
-		    	if (!timerCanFetchData) {
-		    		timerCanFetchData = true;
-		    	} else {
-		    		fetchData();	
-		    	}
-		    		System.out.println(observers.size());
-		    		System.out.println("----------------------------------------");
+			    	if (!timerCanFetchData) {
+			    		timerCanFetchData = true;
+			    	} else {
+			    		fetchData();	
+			    	}
 		    }
+		    //Perform run every timerMinutes, i.e every 5 minutes
 		 }, 0, 1000 * 60 * timerMinutes);
 	}
 
@@ -79,10 +76,6 @@ public class Stock implements Subject {
 		return symbol;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
-
 	public String getLastTrade() {
 		return lastTrade;
 	}
@@ -90,21 +83,8 @@ public class Stock implements Subject {
 	public void setLastTrade(String lastTrade) {
 		this.lastTrade = lastTrade;
 	}
-
-	/*
-	 * Find better way to do this..maybe use simpledateformat?
-	 * 
-	 */
+	
 	public String getDate() {
-		/*	
-		int spaceIndex = date.indexOf("T");
-		if (spaceIndex != -1)
-		{
-		    date = date.substring(0, spaceIndex);
-		}
-		return date;
-		*/
-		
 		//date in format of yyyy-mm-dd
 		return date.substring(0, 10);
 
