@@ -50,8 +50,16 @@ public class Controller {
 				} else {
 					//stock doesn't exists, create a new stock and monitor
 					stockList.add(createStock(inputText));
-					int lastStockAddedIndex = stockList.size() - 1;
-					new StockMonitor(stockList.get(lastStockAddedIndex));
+					//Remove stock if invalid
+					int ind = stockList.size()-1;
+					if (!stockList.get(ind).is_valid()){
+						stockList.remove(ind);
+						view.displayErrorMessage("Invalid Symbol");
+					} else{
+						int lastStockAddedIndex = stockList.size() - 1;
+						new StockMonitor(stockList.get(lastStockAddedIndex));
+					}
+					
 				}
 			} catch (Exception ex) {
 				System.out.println(ex);

@@ -75,6 +75,16 @@ public class Stock implements Subject {
 		 }, 0, 1000 * 60 * timerMinutes);
 	}
 
+	public boolean is_valid(){
+		List<String> result = this.server.getQuote(symbol);		
+		if (result.get(1).equals("Unset")){
+			return false;
+		} else{
+			return true;
+		}
+		
+	}
+	
 	public ServerAbstract getServer() {
 		return this.server;
 	}
