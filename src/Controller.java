@@ -8,12 +8,12 @@ import java.util.TimerTask;
 
 public class Controller {
 	
-	private MainView view;
+	private HomeView view;
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
 	private ServerWSDL serverWSDL = new ServerWSDL();
 	
-	public Controller(MainView view) {
+	public Controller(HomeView view) {
 		this.view = view;
 		
 		this.view.addMonitorButtonListener(new MonitorListener());

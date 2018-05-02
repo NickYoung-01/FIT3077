@@ -4,12 +4,12 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
-public class MainView extends JFrame {
+public class HomeView extends JFrame {
 
 	private JTextField stockInputField = new JTextField(10);
 	private JButton monitorStockButton = new JButton("Monitor");
 	
-	MainView() {
+	HomeView() {
 		JPanel mainViewPanel = new JPanel();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -7,7 +7,7 @@ public class Main {
 	 */
 	
 	public static void main(String[] args) {
-		MainView view = new MainView();
+		HomeView view = new HomeView();
 		Controller controller = new Controller(view);
 		
 		view.setVisible(true);
