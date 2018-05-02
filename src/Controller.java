@@ -33,7 +33,7 @@ public class Controller {
 	}
 	
 	public Stock createStock(String symbol){
-		return new Stock(symbol, this.serverWSDL, 5);
+		return new Stock(symbol, this.serverWSDL, 1);
 	}
 	
 	//This is our MonitorButton listener class

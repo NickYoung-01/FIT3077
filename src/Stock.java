@@ -13,14 +13,15 @@ public class Stock implements Subject {
 	private String date;
 	private String time;
 	private boolean timerCanFetchData = false;
+	private int timerMinutes;
 	private ServerAbstract server;
 	public Timer timer;
 	
 	public Stock(String symbol, ServerAbstract server, int timerMinutes) {
 		this.server = server;
 		this.symbol = symbol;
+		this.timerMinutes = timerMinutes;
 		fetchData();
-		startTimer(timerMinutes);
 	}
 	
 	//Get the data from the webservice
@@ -34,12 +35,21 @@ public class Stock implements Subject {
 
 	@Override
 	public void registerObserver(Observer o) {
+		//if this is the first observer being added start the timer
+		if (observers.isEmpty()) {
+			startTimer(timerMinutes);
+		}
 		observers.add(o);
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
 		observers.remove(o);
+		//if there is no more observers left stop fetching data
+		if (observers.isEmpty()) {
+			timer.cancel();
+			timerCanFetchData = false;
+		}
 	}
 
 	@Override
@@ -54,6 +64,7 @@ public class Stock implements Subject {
 		timer.schedule(new TimerTask() {
 		    @Override
 		    public void run() { 
+		    		System.out.println("im in the timer");
 			    	if (!timerCanFetchData) {
 			    		timerCanFetchData = true;
 			    	} else {
