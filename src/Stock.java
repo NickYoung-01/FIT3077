@@ -30,7 +30,9 @@ public class Stock implements Subject {
 		setLastTrade((String) quoteData.get(1));
 		setDate((String) quoteData.get(2));
 		setTime((String) quoteData.get(3));
-		updateObserver();
+		if (!observers.isEmpty()) {
+			updateObserver();
+		}
 	}
 
 	@Override
@@ -48,7 +50,6 @@ public class Stock implements Subject {
 		//if there is no more observers left stop fetching data
 		if (observers.isEmpty()) {
 			timer.cancel();
-			timerCanFetchData = false;
 		}
 	}
 
@@ -64,12 +65,7 @@ public class Stock implements Subject {
 		timer.schedule(new TimerTask() {
 		    @Override
 		    public void run() { 
-		    		System.out.println("im in the timer");
-			    	if (!timerCanFetchData) {
-			    		timerCanFetchData = true;
-			    	} else {
-			    		fetchData();	
-			    	}
+			    	fetchData();	
 		    }
 		    //Perform run every timerMinutes, i.e every 5 minutes
 		 }, 0, 1000 * 60 * timerMinutes);

@@ -43,9 +43,9 @@ public class StockMonitor implements Observer {
 		
 		JPanel panel = new JPanel();
 		symbolLabel = new JLabel("Symbol: " + stock.getSymbol());
-		lastPriceLabel = new JLabel("Last Price:");
-		dateLabel = new JLabel("Date: ");
-		timeLabel = new JLabel("Time: ");
+		lastPriceLabel = new JLabel("Last Price: " + stock.getLastTrade());
+		dateLabel = new JLabel("Date: " + stock.getDate());
+		timeLabel = new JLabel("Time: " + stock.getTime());
 		
 		panel.setLayout(new GridLayout(0,1));
 		panel.add(symbolLabel);
@@ -54,7 +54,7 @@ public class StockMonitor implements Observer {
 		panel.add(timeLabel);
 
 		//get the initial values of the stock
-		update();
+//		update();
 		
 		frame.add(panel);
 		frame.setVisible(true);
