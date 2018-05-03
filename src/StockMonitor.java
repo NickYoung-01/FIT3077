@@ -30,6 +30,7 @@ public class StockMonitor implements Observer {
 		
 		frame.setSize(200, 200);
 		Random rand = new Random();
+
 		
 		//Need to access os in order to get screen size, toolkit gives us that access
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
