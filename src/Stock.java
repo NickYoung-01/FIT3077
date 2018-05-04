@@ -5,14 +5,13 @@ import java.util.TimerTask;
 
 import stockquoteservice.*;
 
-public class Stock implements Subject {
+public class Stock extends Subject {
 
 	private List<Observer> observers = new ArrayList<Observer>();
 	private String symbol;
 	private String lastTrade;
 	private String date;
 	private String time;
-	private boolean timerCanFetchData = false;
 	private int timerMinutes;
 	private ServerAbstract server;
 	public Timer timer;

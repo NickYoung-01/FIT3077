@@ -7,7 +7,7 @@ import java.util.Random;
 
 import javax.swing.*;
 
-public class StockMonitor implements Observer {
+public class StockMonitor extends Observer {
 
 	private Stock stock;
 	private JLabel symbolLabel, lastPriceLabel, dateLabel, timeLabel;
@@ -52,9 +52,6 @@ public class StockMonitor implements Observer {
 		panel.add(lastPriceLabel);
 		panel.add(dateLabel);
 		panel.add(timeLabel);
-
-		//get the initial values of the stock
-//		update();
 		
 		frame.add(panel);
 		frame.setVisible(true);
@@ -62,7 +59,6 @@ public class StockMonitor implements Observer {
 	
 	@Override
 	public void update() {
-		System.out.println("\n" + stock.getSymbol() + " " + stock.getLastTrade() + " " + stock.getDate() + " " + stock.getTime());
 		lastPriceLabel.setText("Last Price: " + stock.getLastTrade());
 		dateLabel.setText("Date: " + stock.getDate());
 		timeLabel.setText("Time: " + stock.getTime());

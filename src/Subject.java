@@ -1,6 +1,7 @@
 
-public interface Subject {
-	public void registerObserver(Observer o);
-	public void removeObserver(Observer o);
-	public void updateObserver();
+public abstract class Subject {
+	
+	public abstract void registerObserver(Observer o);
+	public abstract void removeObserver(Observer o);
+	public abstract void updateObserver();
 }
