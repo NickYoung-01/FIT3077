@@ -18,7 +18,7 @@ public class HomeView extends JFrame {
 		this.setSize(380, 100);
 		this.setTitle("Stock Monitor");
 		
-		String[] monitorTypes = {"Test Monitor", "Graph Monitor"};
+		String[] monitorTypes = {"Text Monitor", "Graph Monitor"};
 		monitorType = new JComboBox(monitorTypes);
 		mainViewPanel.add(monitorType);
 		

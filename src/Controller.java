@@ -36,8 +36,13 @@ public class Controller {
 		stockList.add(new Stock(symbol, this.serverWSDL, 5));
 	}
 	
-	public void createMonitor(Stock stock) {
-		new StockMonitor(stock);
+	public void createMonitor(Stock stock, int monitorIndexType) {
+		//create text monitor
+		if (monitorIndexType == 0) {
+			new StockMonitor(stock);
+		} else {
+			//create graph monitor
+		}
 	}
 	
 	//This is our MonitorButton listener class
@@ -53,7 +58,7 @@ public class Controller {
 				inputText = view.getInputText().toUpperCase();
 				//the stock exists, so just add another observer to it
 				if (stockIsBeingMonitored(inputText)) {
-					createMonitor(stockList.get(existingIndex));
+					createMonitor(stockList.get(existingIndex), monitorIndexType);
 				} else {
 					//stock doesn't exists, create a new stock and monitor
 					createStock(inputText);
@@ -63,7 +68,7 @@ public class Controller {
 						stockList.remove(ind);
 						view.displayErrorMessage("Invalid Symbol");
 					} else{
-						createMonitor(stockList.get(ind));
+						createMonitor(stockList.get(ind), monitorIndexType);
 					}
 					
 				}
