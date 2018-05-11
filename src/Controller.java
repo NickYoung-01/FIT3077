@@ -64,7 +64,7 @@ public class Controller {
 					createStock(inputText);
 					//Remove stock if invalid
 					int ind = stockList.size()-1;
-					if (!stockList.get(ind).is_valid()){
+					if (!stockList.get(ind).isValid()){
 						stockList.remove(ind);
 						view.displayErrorMessage("Invalid Symbol");
 					} else{

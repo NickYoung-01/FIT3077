@@ -70,7 +70,7 @@ public class Stock extends Subject {
 		 }, 0, 1000 * 60 * timerMinutes);
 	}
 
-	public boolean is_valid(){
+	public boolean isValid(){
 		List<String> result = this.server.getQuote(symbol);		
 		if (result.get(1).equals("Unset")){
 			return false;
