@@ -32,8 +32,8 @@ public class Controller {
 		return false;
 	}
 	
-	public void createStock(String symbol){
-		stockList.add(new Stock(symbol, this.serverWSDL, 5));
+	public void createStock(String symbol, int timeLimit){
+		stockList.add(new Stock(symbol, this.serverWSDL, timeLimit));
 	}
 	
 	public void createMonitor(Stock stock, int monitorIndexType) {
@@ -61,7 +61,7 @@ public class Controller {
 					createMonitor(stockList.get(existingIndex), monitorIndexType);
 				} else {
 					//stock doesn't exists, create a new stock and monitor
-					createStock(inputText);
+					createStock(inputText, 60 * 5);
 					//Remove stock if invalid
 					int ind = stockList.size()-1;
 					if (!stockList.get(ind).isValid()){

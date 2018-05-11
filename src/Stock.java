@@ -12,14 +12,14 @@ public class Stock extends Subject {
 	private String lastTrade;
 	private String date;
 	private String time;
-	private int timerMinutes;
+	private int timeLimit;
 	private ServerAbstract server;
 	public Timer timer;
 	
-	public Stock(String symbol, ServerAbstract server, int timerMinutes) {
+	public Stock(String symbol, ServerAbstract server, int timeLimit) {
 		this.server = server;
 		this.symbol = symbol;
-		this.timerMinutes = timerMinutes;
+		this.timeLimit = timeLimit;
 		fetchData();
 	}
 	
@@ -38,7 +38,7 @@ public class Stock extends Subject {
 	public void registerObserver(Observer o) {
 		//if this is the first observer being added start the timer
 		if (observers.isEmpty()) {
-			startTimer(timerMinutes);
+			startTimer(timeLimit);
 		}
 		observers.add(o);
 	}
@@ -59,7 +59,7 @@ public class Stock extends Subject {
 		}
 	}
 	
-	public void startTimer(int timerMinutes) {
+	public void startTimer(int timeLimit) {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 		    @Override
@@ -67,7 +67,7 @@ public class Stock extends Subject {
 			    	fetchData();	
 		    }
 		    //Perform run every timerMinutes, i.e every 5 minutes
-		 }, 0, 1000 * 60 * timerMinutes);
+		 }, 0, 1000 * timeLimit);
 	}
 
 	public boolean isValid(){
