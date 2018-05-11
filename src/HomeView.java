@@ -6,7 +6,8 @@ import javax.swing.*;
 
 
 public class HomeView extends JFrame {
-
+	
+	private JComboBox monitorType;
 	private JTextField stockInputField = new JTextField(10);
 	private JButton monitorStockButton = new JButton("Monitor");
 	
@@ -16,6 +17,10 @@ public class HomeView extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(380, 100);
 		this.setTitle("Stock Monitor");
+		
+		String[] monitorTypes = {"Test Monitor", "Graph Monitor"};
+		monitorType = new JComboBox(monitorTypes);
+		mainViewPanel.add(monitorType);
 		
 		
 		//Need to access os in order to get screen size, toolkit gives us that access
@@ -37,6 +42,10 @@ public class HomeView extends JFrame {
 	
 	public String getInputText() {
 		return stockInputField.getText();
+	}
+	
+	public int getMonitorTypeIndex() {
+		return monitorType.getSelectedIndex();
 	}
 	
 	//Creates a listener for the button.
