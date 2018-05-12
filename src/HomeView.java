@@ -2,11 +2,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.*;
 
 public class HomeView extends JFrame {
 	
-	private JComboBox monitorType;
+	private JComboBox monitorType, serviceType, availableStock;
 	private JTextField stockInputField = new JTextField(10);
 	private JButton monitorStockButton = new JButton("Monitor");
 	
@@ -18,9 +20,13 @@ public class HomeView extends JFrame {
 		this.setTitle("Stock Monitor");
 		
 		String[] monitorTypes = {"Text Monitor", "Graph Monitor"};
+		String[] serviceTypes = {"Live", "Historic"};
+		
 		monitorType = new JComboBox(monitorTypes);
 		mainViewPanel.add(monitorType);
 		
+		serviceType = new JComboBox(serviceTypes);
+		availableStock = new JComboBox();
 		
 		//Need to access os in order to get screen size, toolkit gives us that access
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -32,11 +38,30 @@ public class HomeView extends JFrame {
 		this.setLocation(xCord, yCor);
 		this.setResizable(false);
 	
+		mainViewPanel.add(availableStock);
+		availableStock.setEnabled(false);
 		mainViewPanel.add(stockInputField);
+		mainViewPanel.add(serviceType);
 		mainViewPanel.add(monitorStockButton);
 		
 		//adding the panel to the jframe
 		this.add(mainViewPanel);
+	}
+	
+	public void handleServiceChange() {
+		if (stockInputField.isEnabled()) {
+			stockInputField.setEnabled(false);
+//			stockInputField.hide();
+			availableStock.setEnabled(true);
+		} else {
+			availableStock.setEnabled(false);
+			stockInputField.setEnabled(true);
+//			stockInputField.show();
+		}
+	}
+	
+	public void setAvailableStockList(String stock) {
+		availableStock.addItem(stock);
 	}
 	
 	public String getInputText() {
@@ -45,6 +70,19 @@ public class HomeView extends JFrame {
 	
 	public int getMonitorTypeIndex() {
 		return monitorType.getSelectedIndex();
+	}
+	
+	public int getServiceTypeIndex() {
+		return serviceType.getSelectedIndex();
+	}
+	
+	public String getSelectedHistoricStock() {
+		return availableStock.getSelectedItem().toString();
+	}
+	
+	//Creates a listener for the service type jcombobox
+	void addServiceTypeComboListener(ActionListener listenForComboChange) {
+		serviceType.addActionListener(listenForComboChange);
 	}
 	
 	//Creates a listener for the button.

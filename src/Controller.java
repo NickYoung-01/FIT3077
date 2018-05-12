@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import stockquotetimelapse.StockQuoteTimeLapseService;
+import stockquotetimelapse.StockQuoteTimeLapseServicePortType;
+
 
 public class Controller {
 	
@@ -12,12 +15,21 @@ public class Controller {
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
 	private ServerWSDL serverWSDL = new ServerWSDL();
+	StockQuoteTimeLapseService SQservice = new StockQuoteTimeLapseService();
+	StockQuoteTimeLapseServicePortType SQPort = SQservice.getStockQuoteTimeLapseServiceHttpSoap11Endpoint();
 	
 	public Controller(HomeView view) {
 		this.view = view;
 		
+		//fill up the drop down with a list of available stocks
+		List<String> historicStockList = getListOfStocskForHistoricService();
+		for (String stock: historicStockList) {
+			view.setAvailableStockList(stock);
+		}
+		
 		//Assign our MonitorListener to be the listener to the Monitor Button in HomeView
 		this.view.addMonitorButtonListener(new MonitorListener());
+		this.view.addServiceTypeComboListener(new ServiceTypeListener());
 	}
 	
 	//Check if the stock exists in our stockList
@@ -30,6 +42,10 @@ public class Controller {
 			} 
 		}
 		return false;
+	}
+	
+	public List<String> getListOfStocskForHistoricService() {
+		return SQPort.getSymbols().getReturn();
 	}
 	
 	public void createStock(String symbol, int timeLimit){
@@ -46,6 +62,15 @@ public class Controller {
 		}
 	}
 	
+	class ServiceTypeListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			view.handleServiceChange();
+		}
+		
+	}
+	
 	//This is our MonitorButton listener class
 	class MonitorListener implements ActionListener {
 
@@ -56,22 +81,31 @@ public class Controller {
 			String inputText = "";
 			
 			try {
-				inputText = view.getInputText().toUpperCase();
-				//the stock exists, so just add another observer to it
-				if (stockIsBeingMonitored(inputText)) {
-					createMonitor(stockList.get(existingIndex), monitorIndexType);
+				if (view.getServiceTypeIndex() == 0) {
+					inputText = view.getInputText().toUpperCase();
+					//the stock exists, so just add another observer to it
+					if (stockIsBeingMonitored(inputText)) {
+						createMonitor(stockList.get(existingIndex), monitorIndexType);
+					} else {
+						//stock doesn't exists, create a new stock and monitor
+						createStock(inputText, 60 * 5);
+						//Remove stock if invalid
+						int ind = stockList.size()-1;
+						if (!stockList.get(ind).isValid()){
+							stockList.remove(ind);
+							view.displayErrorMessage("Invalid Symbol");
+						} else{
+							createMonitor(stockList.get(ind), monitorIndexType);
+						}	
+					}
 				} else {
-					//stock doesn't exists, create a new stock and monitor
-					createStock(inputText, 60 * 5);
-					//Remove stock if invalid
-					int ind = stockList.size()-1;
-					if (!stockList.get(ind).isValid()){
-						stockList.remove(ind);
-						view.displayErrorMessage("Invalid Symbol");
-					} else{
+					if (stockIsBeingMonitored(view.getSelectedHistoricStock())) {
+						createMonitor(stockList.get(existingIndex), monitorIndexType);
+					} else {
+						createStock(view.getSelectedHistoricStock(), 5);
+						int ind = stockList.size()-1;
 						createMonitor(stockList.get(ind), monitorIndexType);
 					}
-					
 				}
 			} catch (Exception ex) {
 				System.out.println(ex);
