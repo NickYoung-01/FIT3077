@@ -80,6 +80,10 @@ public class Stock extends Subject {
 		
 	}
 	
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+	
 	public ServerAbstract getServer() {
 		return this.server;
 	}

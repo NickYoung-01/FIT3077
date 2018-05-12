@@ -42,6 +42,7 @@ public class Controller {
 			new StockMonitor(stock);
 		} else {
 			//create graph monitor
+			new GraphMonitor(stock);
 		}
 	}
 	

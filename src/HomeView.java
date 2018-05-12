@@ -4,7 +4,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-
 public class HomeView extends JFrame {
 	
 	private JComboBox monitorType;
