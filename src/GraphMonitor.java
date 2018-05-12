@@ -90,11 +90,14 @@ public class GraphMonitor extends Observer {
 	        plot.setRangeGridlinePaint(Color.lightGray);
 
 	        ValueAxis xaxis = plot.getDomainAxis();
+	        //this makes the axis auto grow with the actual time
 	        xaxis.setAutoRange(true);
 
 	        //the x axis will show the time in a timeLimit increment
 	        //show 20 of these increments as our x axis
-	        xaxis.setFixedAutoRange((1000.0 * stock.getTimeLimit())*20);
+	        //this is a fix width, so will need to implement slider to see history
+//	        xaxis.setFixedAutoRange((1000.0 * stock.getTimeLimit())*20);
+	       
 	        xaxis.setVerticalTickLabels(true);
 
 	        ValueAxis yaxis = plot.getRangeAxis();
