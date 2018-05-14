@@ -1,4 +1,7 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -108,6 +111,17 @@ public class Stock extends Subject {
 		//date in format of yyyy-mm-dd
 		return date.substring(0, 10);
 
+	}
+
+	public Date getDateTime() {
+		Date dateTime = null;
+		try {
+			dateTime = new SimpleDateFormat("yyyy-MM-ddHH:mm").parse(getDate()+time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dateTime;
 	}
 
 	public void setDate(String date) { 
