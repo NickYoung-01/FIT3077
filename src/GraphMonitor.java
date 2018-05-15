@@ -123,8 +123,8 @@ public class GraphMonitor extends Observer {
 		RegularTimePeriod timePeriod = new Second(stock.getDateTime());
 		if (stockDataSet.getSeriesCount() >= 1) {
 			//we never get seconds from the web server...
-//			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
-			stockDataSet.getSeries(0).addOrUpdate(new Second(), Double.parseDouble(stock.getLastTrade()));
+			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
+//			stockDataSet.getSeries(0).addOrUpdate(new Second(), Double.parseDouble(stock.getLastTrade()));
 			System.out.println(stockDataSet.getSeries(0).getItemCount());
 		}
 	}
