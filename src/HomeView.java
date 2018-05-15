@@ -16,7 +16,7 @@ public class HomeView extends JFrame {
 		JPanel mainViewPanel = new JPanel();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(380, 100);
+		this.setSize(380, 500);
 		this.setTitle("Stock Monitor");
 		
 		String[] monitorTypes = {"Text Monitor", "Graph Monitor"};
@@ -38,6 +38,7 @@ public class HomeView extends JFrame {
 		this.setLocation(xCord, yCor);
 		this.setResizable(false);
 	
+
 		mainViewPanel.add(availableStock);
 		availableStock.setEnabled(false);
 		mainViewPanel.add(stockInputField);
