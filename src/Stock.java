@@ -115,8 +115,14 @@ public class Stock extends Subject {
 
 	public Date getDateTime() {
 		Date dateTime = null;
+		String updateTime = "";
+		if (time.contains("failed")) {
+			updateTime = time.substring(16, 21);
+		} else {
+			updateTime = time;
+		}
 		try {
-			dateTime = new SimpleDateFormat("yyyy-MM-ddHH:mm").parse(getDate()+time);
+			dateTime = new SimpleDateFormat("yyyy-MM-ddHH:mm").parse(getDate()+updateTime);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

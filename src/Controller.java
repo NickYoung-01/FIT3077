@@ -99,6 +99,7 @@ public class Controller {
 						}	
 					}
 				} else {
+					//this is timelapse stuff
 					if (stockIsBeingMonitored(view.getSelectedHistoricStock())) {
 						createMonitor(stockList.get(existingIndex), monitorIndexType);
 					} else {
