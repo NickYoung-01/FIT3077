@@ -14,15 +14,14 @@ public class Controller {
 	private HomeView view;
 	private int existingIndex;
 	private List<Stock> stockList = new ArrayList<Stock>();
-	private ServerWSDL serverWSDL = new ServerWSDL();
-	StockQuoteTimeLapseService SQservice = new StockQuoteTimeLapseService();
-	StockQuoteTimeLapseServicePortType SQPort = SQservice.getStockQuoteTimeLapseServiceHttpSoap11Endpoint();
+	private ServerLive serverWSDL = new ServerLive();
+	private ServerHistoric serverHistoric = new ServerHistoric();
 	
 	public Controller(HomeView view) {
 		this.view = view;
 		
 		//fill up the drop down with a list of available stocks
-		List<String> historicStockList = getListOfStocskForHistoricService();
+		List<String> historicStockList = serverHistoric.getSymbols();
 		for (String stock: historicStockList) {
 			view.setAvailableStockList(stock);
 		}
@@ -42,10 +41,6 @@ public class Controller {
 			} 
 		}
 		return false;
-	}
-	
-	public List<String> getListOfStocskForHistoricService() {
-		return SQPort.getSymbols().getReturn();
 	}
 	
 	public void createStock(String symbol, int timeLimit){
@@ -103,6 +98,7 @@ public class Controller {
 					if (stockIsBeingMonitored(view.getSelectedHistoricStock())) {
 						createMonitor(stockList.get(existingIndex), monitorIndexType);
 					} else {
+						System.out.println(view.getSelectedHistoricStock());
 						createStock(view.getSelectedHistoricStock(), 5);
 						int ind = stockList.size()-1;
 						createMonitor(stockList.get(ind), monitorIndexType);

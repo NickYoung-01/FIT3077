@@ -1,15 +1,14 @@
 import java.util.List;
 
-import stockquoteservice.GetFieldNamesResponse;
 import stockquoteservice.StockQuoteWS;
 import stockquoteservice.StockQuoteWSPortType;
 
-public class ServerWSDL extends ServerAbstract{
+public class ServerLive extends ServerAbstract{
 	
 	private StockQuoteWS quote;
 	private StockQuoteWSPortType quotePort;
 	
-	public ServerWSDL() {
+	public ServerLive() {
 		quote = new StockQuoteWS();
 		this.quotePort = quote.getStockQuoteWSSOAP11PortHttp();
 	}
