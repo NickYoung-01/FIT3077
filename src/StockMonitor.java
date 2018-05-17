@@ -62,6 +62,7 @@ public class StockMonitor extends Observer {
 		lastPriceLabel.setText("Last Price: " + stock.getLastTrade());
 		dateLabel.setText("Date: " + stock.getDate());
 		timeLabel.setText("Time: " + stock.getTime());
+		System.out.println(stock.getTime() + " " + stock.getLastTrade());
 	}
 	
 	//Remove this observer from Stock and close JFrame

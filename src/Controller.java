@@ -43,8 +43,8 @@ public class Controller {
 		return false;
 	}
 	
-	public void createStock(String symbol, int timeLimit){
-		stockList.add(new Stock(symbol, this.serverWSDL, timeLimit));
+	public void createStock(String symbol, ServerAbstract server, int timeLimit){
+		stockList.add(new Stock(symbol, server, timeLimit));
 	}
 	
 	public void createMonitor(Stock stock, int monitorIndexType) {
@@ -83,7 +83,7 @@ public class Controller {
 						createMonitor(stockList.get(existingIndex), monitorIndexType);
 					} else {
 						//stock doesn't exists, create a new stock and monitor
-						createStock(inputText, 60 * 5);
+						createStock(inputText, serverWSDL, 60 * 5);
 						//Remove stock if invalid
 						int ind = stockList.size()-1;
 						if (!stockList.get(ind).isValid()){
@@ -99,7 +99,7 @@ public class Controller {
 						createMonitor(stockList.get(existingIndex), monitorIndexType);
 					} else {
 						System.out.println(view.getSelectedHistoricStock());
-						createStock(view.getSelectedHistoricStock(), 5);
+						createStock(view.getSelectedHistoricStock(), serverHistoric, 5);
 						int ind = stockList.size()-1;
 						createMonitor(stockList.get(ind), monitorIndexType);
 					}

@@ -85,7 +85,8 @@ public class GraphMonitor extends Observer {
         xaxis.setVerticalTickLabels(true);
 
         ValueAxis yaxis = plot.getRangeAxis();
-        yaxis.setRange(0.0, Double.parseDouble(stock.getLastTrade()) + 50);
+        yaxis.setAutoRange(true);
+//        yaxis.setRange(Double.parseDouble(stock.getLastTrade()) - (Double.parseDouble(stock.getLastTrade()) * 0.05), Double.parseDouble(stock.getLastTrade()) + (Double.parseDouble(stock.getLastTrade()) * 0.05));
 
         //Set the size of our chart's panel
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -125,7 +126,7 @@ public class GraphMonitor extends Observer {
 			//we never get seconds from the web server...
 			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
 //			stockDataSet.getSeries(0).addOrUpdate(new Second(), Double.parseDouble(stock.getLastTrade()));
-			System.out.println(stockDataSet.getSeries(0).getItemCount());
+			System.out.println(stockDataSet.getSeries(0).getItemCount() + " " + stock.getLastTrade() + " " + stock.getDateTime());
 		}
 	}
 	
