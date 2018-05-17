@@ -18,8 +18,10 @@ public class Stock extends Subject {
 	private int timeLimit;
 	private ServerAbstract server;
 	public Timer timer;
-	
-	public Stock(String symbol, ServerAbstract server, int timeLimit) {
+	private boolean isLive;
+
+	public Stock(String symbol, ServerAbstract server, int timeLimit, boolean isLive) {
+		this.isLive = isLive;
 		this.server = server;
 		this.symbol = symbol;
 		this.timeLimit = timeLimit;
@@ -109,7 +111,17 @@ public class Stock extends Subject {
 	
 	public String getDate() {
 		//date in format of yyyy-mm-dd
-		return date.substring(0, 10);
+		if (this.isLive){
+			return date.substring(0, 10);
+		} else {
+			String[] dateArray = date.split("/");
+			for (int i=0;i<2;i++){
+				if (dateArray[i].length()<2){
+					dateArray[i] = "0"+dateArray[i];
+				}
+			}
+			return dateArray[2]+"-"+dateArray[1]+"-"+dateArray[0];
+		}
 
 	}
 

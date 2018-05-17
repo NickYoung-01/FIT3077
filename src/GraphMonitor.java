@@ -11,6 +11,7 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -22,6 +23,8 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
+import javafx.scene.chart.NumberAxis;
+
 public class GraphMonitor extends Observer {
 
 //	private TimeSeries series;
@@ -29,6 +32,7 @@ public class GraphMonitor extends Observer {
 	
 	private Stock stock;
 	private JFrame frame;
+	private final JFreeChart chart;
 	
 	public GraphMonitor(Stock stock) {
 		this.stock = stock;
@@ -40,7 +44,7 @@ public class GraphMonitor extends Observer {
 
 //		this.series = new TimeSeries("Price");
 //		final TimeSeriesCollection dataSet = new TimeSeriesCollection(this.series);
-		final JFreeChart chart = createChart(stockDataset);
+		this.chart = createChart(stockDataset);
 		
 		//We want to perform our own closing action
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -85,7 +89,8 @@ public class GraphMonitor extends Observer {
         xaxis.setVerticalTickLabels(true);
 
         ValueAxis yaxis = plot.getRangeAxis();
-        yaxis.setRange(0.0, Double.parseDouble(stock.getLastTrade()) + 50);
+        Double lastTrade = Double.parseDouble(stock.getLastTrade());
+        yaxis.setRange(0.99*lastTrade, 1.01*lastTrade);
 
         //Set the size of our chart's panel
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -106,15 +111,23 @@ public class GraphMonitor extends Observer {
 	}
 	
 	private JFreeChart createChart(XYDataset stockDataset) {
-		return ChartFactory.createTimeSeriesChart(
+		JFreeChart graph = ChartFactory.createTimeSeriesChart(
 	            stock.getSymbol() + " TimeSeries Chart",
 	            "Time",//x-axis
 	            "Price",//y-axis
 	            stockDataset,
-	            true,
+	            false,
 	            false,
 	            false
 	        );
+		return graph;
+		
+	}
+	
+	public void updateAxis(double min, double max){
+		XYPlot plot = chart.getXYPlot();
+		ValueAxis yaxis = plot.getRangeAxis();
+        yaxis.setRange(0.99*min, 1.01*max);
 	}
 
 	@Override
@@ -125,7 +138,12 @@ public class GraphMonitor extends Observer {
 			//we never get seconds from the web server...
 			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
 //			stockDataSet.getSeries(0).addOrUpdate(new Second(), Double.parseDouble(stock.getLastTrade()));
+			
+			//Update axis to more clearly represent data
+			TimeSeries data = stockDataSet.getSeries(0);
+			this.updateAxis(data.getMinY(),data.getMaxY());
 			System.out.println(stockDataSet.getSeries(0).getItemCount());
+
 		}
 	}
 	
