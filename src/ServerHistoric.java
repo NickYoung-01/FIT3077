@@ -27,7 +27,8 @@ public class ServerHistoric extends ServerAbstract{
 		List<String> quoteData = port.getStockQuote(symbol);
 		
 		//convert date to our format standard
-		quoteData.set(2, super.convertDate(quoteData.get(2)));
+		SimpleDateFormat serverFormat = new SimpleDateFormat("dd/MM/yyyy");
+		quoteData.set(2, super.convertDate(quoteData.get(2), serverFormat));
 		System.out.println(quoteData.get(2));
 		
 		//convert price from cents to dollars

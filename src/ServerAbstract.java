@@ -11,12 +11,11 @@ public abstract class ServerAbstract {
 	public abstract List<String> getFieldNames();
 	public abstract List<String> getQuote(String symbol);
 	
-	public String convertDate(String date) {
+	public String convertDate(String date, SimpleDateFormat format) {
 		String dateConverted = "";
 		//convert date to our format standard
-		SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 		try {
-			dateConverted = myDateFormat.format(serverFormat.parse(date));
+			dateConverted = myDateFormat.format(format.parse(date));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
