@@ -61,7 +61,7 @@ public class Controller {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			view.handleServiceChange();
+			view.handleServiceChange(view.getServiceTypeIndex());
 		}
 		
 	}

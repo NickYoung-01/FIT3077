@@ -49,15 +49,16 @@ public class HomeView extends JFrame {
 		this.add(mainViewPanel);
 	}
 	
-	public void handleServiceChange() {
-		if (stockInputField.isEnabled()) {
-			stockInputField.setEnabled(false);
-//			stockInputField.hide();
-			availableStock.setEnabled(true);
-		} else {
-			availableStock.setEnabled(false);
-			stockInputField.setEnabled(true);
-//			stockInputField.show();
+	public void handleServiceChange(int index) {
+		switch (index) {
+			case 0:	availableStock.setEnabled(false);
+					stockInputField.setEnabled(true);
+					break;
+			case 1:	stockInputField.setEnabled(false);
+					availableStock.setEnabled(true);
+					break;
+			default:
+					break;
 		}
 	}
 	
