@@ -104,21 +104,11 @@ public class Stock extends Subject {
 	}
 
 	public void setLastTrade(String lastTrade) {
-		if (server instanceof ServerHistoric) {
-			double price = Double.parseDouble(lastTrade) / 100;
-			this.lastTrade = Double.toString(price);
-		} else {
-			this.lastTrade = lastTrade;
-		}
+		this.lastTrade = lastTrade;
 	}
 	
 	public String getDate() {
 		//date in format of yyyy-mm-dd
-//		if (server instanceof ServerLive) {
-//			return date.substring(0, 10);
-//		} else {
-//			return date;
-//		}
 		return date;
 	}
 
@@ -131,11 +121,7 @@ public class Stock extends Subject {
 			updateTime = time;
 		}
 		try {
-			if (server instanceof ServerLive) {
-				dateTime = new SimpleDateFormat("yyyy-MM-ddHH:mm").parse(getDate()+updateTime);
-			} else {
-				dateTime = new SimpleDateFormat("dd/MM/yyyyHH:mm").parse(getDate()+updateTime);
-			}
+			dateTime = new SimpleDateFormat("yyyy-MM-ddHH:mm").parse(getDate()+updateTime);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

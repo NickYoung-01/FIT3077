@@ -37,6 +37,10 @@ public class ServerHistoric extends ServerAbstract{
 		    e.printStackTrace();
 		}
 		
+		//convert price from cents to dollars
+		double price = Double.parseDouble(quoteData.get(1)) / 100;
+		quoteData.set(1, Double.toString(price));
+		
 		return quoteData;
 	}
 	

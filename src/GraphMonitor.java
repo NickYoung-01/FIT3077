@@ -78,15 +78,12 @@ public class GraphMonitor extends Observer {
         xaxis.setAutoRange(true);
 
         //the x axis will show the time in a timeLimit increment
-        //show 20 of these increments as our x axis
-        //this is a fix width, so will need to implement slider to see history
-//        xaxis.setFixedAutoRange((1000.0 * stock.getTimeLimit())*20);
        
         xaxis.setVerticalTickLabels(true);
 
         ValueAxis yaxis = plot.getRangeAxis();
+        //yaxis also automatically grows
         yaxis.setAutoRange(true);
-//        yaxis.setRange(Double.parseDouble(stock.getLastTrade()) - (Double.parseDouble(stock.getLastTrade()) * 0.05), Double.parseDouble(stock.getLastTrade()) + (Double.parseDouble(stock.getLastTrade()) * 0.05));
 
         //Set the size of our chart's panel
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -125,7 +122,6 @@ public class GraphMonitor extends Observer {
 		if (stockDataSet.getSeriesCount() >= 1) {
 			//we never get seconds from the web server...
 			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
-//			stockDataSet.getSeries(0).addOrUpdate(new Second(), Double.parseDouble(stock.getLastTrade()));
 			System.out.println(stockDataSet.getSeries(0).getItemCount() + " " + stock.getLastTrade() + " " + stock.getDateTime());
 		}
 	}
