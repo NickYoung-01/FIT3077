@@ -1,3 +1,4 @@
+package View;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -12,7 +13,7 @@ public class HomeView extends JFrame {
 	private JTextField stockInputField = new JTextField(10);
 	private JButton monitorStockButton = new JButton("Monitor");
 	
-	HomeView() {
+	public HomeView() {
 		JPanel mainViewPanel = new JPanel();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,16 +84,16 @@ public class HomeView extends JFrame {
 	}
 	
 	//Creates a listener for the service type jcombobox
-	void addServiceTypeComboListener(ActionListener listenForComboChange) {
+	public void addServiceTypeComboListener(ActionListener listenForComboChange) {
 		serviceType.addActionListener(listenForComboChange);
 	}
 	
 	//Creates a listener for the button.
-	void addMonitorButtonListener(ActionListener listenForMonitorButton) {
+	public void addMonitorButtonListener(ActionListener listenForMonitorButton) {
 		monitorStockButton.addActionListener(listenForMonitorButton);
 	}
 	
-	void displayErrorMessage(String errorMessage) {
+	public void displayErrorMessage(String errorMessage) {
 		JOptionPane.showMessageDialog(this, errorMessage);
 	}
 }

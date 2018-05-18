@@ -1,3 +1,4 @@
+package View;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -6,6 +7,9 @@ import java.awt.event.WindowEvent;
 import java.util.Random;
 
 import javax.swing.*;
+
+import Model.Observer;
+import Model.Stock;
 
 public class StockMonitor extends Observer {
 

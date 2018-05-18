@@ -1,3 +1,5 @@
+import Controller.Controller;
+import View.*;
 
 public class Main { 
 	

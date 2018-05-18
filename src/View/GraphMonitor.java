@@ -1,3 +1,4 @@
+package View;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -18,6 +19,9 @@ import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
+
+import Model.Observer;
+import Model.Stock;
 
 public class GraphMonitor extends Observer {
 

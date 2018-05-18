@@ -1,12 +1,13 @@
+package Controller;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import stockquotetimelapse.StockQuoteTimeLapseService;
-import stockquotetimelapse.StockQuoteTimeLapseServicePortType;
+import ServerAbstract.*;
+import View.*;
+import Model.*;
 
 
 public class Controller {

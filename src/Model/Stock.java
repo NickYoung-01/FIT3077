@@ -1,3 +1,4 @@
+package Model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -5,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import ServerAbstract.ServerAbstract;
 
 public class Stock extends Subject {
 
