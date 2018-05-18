@@ -20,12 +20,12 @@ public class HomeView extends JFrame {
 		this.setSize(380, 500);
 		this.setTitle("Stock Monitor");
 		
+		//The label for the options in the combo boxes
 		String[] monitorTypes = {"Text Monitor", "Graph Monitor"};
 		String[] serviceTypes = {"Live", "Historic"};
 		
+		//create new combo boxes with their options
 		monitorType = new JComboBox(monitorTypes);
-		mainViewPanel.add(monitorType);
-		
 		serviceType = new JComboBox(serviceTypes);
 		availableStock = new JComboBox();
 		
@@ -39,7 +39,7 @@ public class HomeView extends JFrame {
 		this.setLocation(xCord, yCor);
 		this.setResizable(false);
 	
-
+		mainViewPanel.add(monitorType);
 		mainViewPanel.add(availableStock);
 		availableStock.setEnabled(false);
 		mainViewPanel.add(stockInputField);
@@ -50,11 +50,17 @@ public class HomeView extends JFrame {
 		this.add(mainViewPanel);
 	}
 	
+	//when the serviceType combo box is clicked
 	public void handleServiceChange(int index) {
 		switch (index) {
+		//if the selected index of the combo box is 0, which means live
+		//we should only allow user to enter into the text input field
 			case 0:	availableStock.setEnabled(false);
 					stockInputField.setEnabled(true);
 					break;
+		//if the selected index of the combo box is 1, which means historic (timelapse)
+		//there are only certain stocks that can be monitored, hence drop down is enabled
+		//and input field is disabled
 			case 1:	stockInputField.setEnabled(false);
 					availableStock.setEnabled(true);
 					break;
@@ -63,6 +69,7 @@ public class HomeView extends JFrame {
 		}
 	}
 	
+	//add the stocks that we can monitor for the historic server (timelapse)
 	public void setAvailableStockList(String stock) {
 		availableStock.addItem(stock);
 	}
