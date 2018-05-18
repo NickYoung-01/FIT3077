@@ -60,7 +60,7 @@ public class StockMonitor extends Observer {
 	
 	@Override
 	public void update() {
-		lastPriceLabel.setText("Last Price: " + stock.getLastTrade());
+		lastPriceLabel.setText("Last Price: " + stock.getLastTrade() + " AUD");
 		dateLabel.setText("Date: " + stock.getDate());
 		timeLabel.setText("Time: " + stock.getTime());
 		System.out.println(stock.getTime() + " " + stock.getLastTrade());

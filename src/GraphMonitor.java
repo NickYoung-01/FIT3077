@@ -1,5 +1,3 @@
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -15,9 +13,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.time.Minute;
 import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
@@ -70,22 +65,15 @@ public class GraphMonitor extends Observer {
         
         final XYPlot plot = chart.getXYPlot();
         //format xaxis to have a date format
-        DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        DateAxis xaxis = (DateAxis) plot.getDomainAxis();
+        xaxis.setDateFormatOverride(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        xaxis.setVerticalTickLabels(true);
         
         plot.setBackgroundPaint(Color.white);
         plot.setDomainGridlinesVisible(true);
         plot.setDomainGridlinePaint(Color.lightGray);
         plot.setRangeGridlinesVisible(true);
         plot.setRangeGridlinePaint(Color.lightGray);
-
-        ValueAxis xaxis = plot.getDomainAxis();
-        //this makes the axis auto grow with the actual time
-        xaxis.setAutoRange(true);
-
-        //the x axis will show the time in a timeLimit increment
-       
-        xaxis.setVerticalTickLabels(true);
 
         ValueAxis yaxis = plot.getRangeAxis();
         //yaxis also automatically grows
@@ -113,7 +101,7 @@ public class GraphMonitor extends Observer {
 		return ChartFactory.createTimeSeriesChart(
 	            stock.getSymbol() + " TimeSeries Chart",
 	            "Time",//x-axis
-	            "Price",//y-axis
+	            "Price (AUD)",//y-axis
 	            stockDataset,
 	            true,
 	            false,
