@@ -27,15 +27,8 @@ public class ServerHistoric extends ServerAbstract{
 		List<String> quoteData = port.getStockQuote(symbol);
 		
 		//convert date to our format standard
-		SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat serverFormat = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-		    String formatConverted = myDateFormat.format(serverFormat.parse(quoteData.get(2)));
-		    System.out.println(formatConverted);
-		    quoteData.set(2, formatConverted);
-		} catch (ParseException e) {
-		    e.printStackTrace();
-		}
+		quoteData.set(2, super.convertDate(quoteData.get(2)));
+		System.out.println(quoteData.get(2));
 		
 		//convert price from cents to dollars
 		double price = Double.parseDouble(quoteData.get(1)) / 100;
