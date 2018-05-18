@@ -40,11 +40,6 @@ public class ServerHistoric extends ServerAbstract{
 	
 	public List<String> getSymbols(){
 		List<String> symbols = this.port.getSymbols().getReturn();
-		int i=0;
-		for (String stock:symbols){
-			symbols.set(i, stock.substring(0, 3));
-			i++;
-		}
 		return symbols;
 	}
 	
