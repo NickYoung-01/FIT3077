@@ -37,8 +37,7 @@ public class ServerHistoric extends ServerAbstract{
 	}
 	
 	public List<String> getSymbols(){
-		List<String> symbols = this.port.getSymbols().getReturn();
-		return symbols;
+		return port.getSymbols().getReturn();
 	}
 	
 
