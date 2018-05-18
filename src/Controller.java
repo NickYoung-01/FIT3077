@@ -78,20 +78,24 @@ public class Controller {
 			try {
 				if (view.getServiceTypeIndex() == 0) {
 					inputText = view.getInputText().toUpperCase();
+					if(inputText.length() <= 3) {
 					//the stock exists, so just add another observer to it
-					if (stockIsBeingMonitored(inputText)) {
-						createMonitor(stockList.get(existingIndex), monitorIndexType);
+						if (stockIsBeingMonitored(inputText)) {
+							createMonitor(stockList.get(existingIndex), monitorIndexType);
+						} else {
+							//stock doesn't exists, create a new stock and monitor
+							createStock(inputText, serverWSDL, 60 * 5);
+							//Remove stock if invalid
+							int ind = stockList.size()-1;
+							if (!stockList.get(ind).isValid()){
+								stockList.remove(ind);
+								view.displayErrorMessage("Invalid Symbol");
+							} else{
+								createMonitor(stockList.get(ind), monitorIndexType);
+							}	
+						}
 					} else {
-						//stock doesn't exists, create a new stock and monitor
-						createStock(inputText, serverWSDL, 60 * 5);
-						//Remove stock if invalid
-						int ind = stockList.size()-1;
-						if (!stockList.get(ind).isValid()){
-							stockList.remove(ind);
-							view.displayErrorMessage("Invalid Symbol");
-						} else{
-							createMonitor(stockList.get(ind), monitorIndexType);
-						}	
+						view.displayErrorMessage("Input limit is 3 chars");
 					}
 				} else {
 					//this is timelapse stuff
