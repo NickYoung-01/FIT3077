@@ -5,12 +5,14 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -67,6 +69,10 @@ public class GraphMonitor extends Observer {
         final ChartPanel chartPanel = new ChartPanel(chart);
         
         final XYPlot plot = chart.getXYPlot();
+        //format xaxis to have a date format
+        DateAxis axis = (DateAxis) plot.getDomainAxis();
+        axis.setDateFormatOverride(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        
         plot.setBackgroundPaint(Color.white);
         plot.setDomainGridlinesVisible(true);
         plot.setDomainGridlinePaint(Color.lightGray);

@@ -29,6 +29,7 @@ public class StockMonitor extends Observer {
 		});
 		
 		frame.setSize(200, 200);
+		//So we can generate a random number when setting frames coords
 		Random rand = new Random();
 
 		
