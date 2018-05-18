@@ -22,20 +22,10 @@ public class ServerLive extends ServerAbstract{
 
 	@Override
 	public List<String> getQuote(String symbol) {
-		
 		List<String> quoteData = quotePort.getQuote(symbol);
-		
-		//convert date to our format standard
-		SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		try {
-		    String formatConverted = myDateFormat.format(serverFormat.parse(quoteData.get(2)));
-		    System.out.println(formatConverted);
-		    quoteData.set(2, formatConverted);
-		} catch (ParseException e) {
-		    e.printStackTrace();
-		}
-		
+		//convert the data to our format and set it
+		quoteData.set(2, super.convertDate(quoteData.get(2)));
+		System.out.println(quoteData.get(2));
 		return quoteData;
 	}
 
