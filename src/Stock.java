@@ -114,12 +114,12 @@ public class Stock extends Subject {
 	
 	public String getDate() {
 		//date in format of yyyy-mm-dd
-		if (server instanceof ServerLive) {
-			return date.substring(0, 10);
-		} else {
-			return date;
-		}
-
+//		if (server instanceof ServerLive) {
+//			return date.substring(0, 10);
+//		} else {
+//			return date;
+//		}
+		return date;
 	}
 
 	public Date getDateTime() {

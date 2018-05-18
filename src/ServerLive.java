@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import stockquoteservice.StockQuoteWS;
@@ -20,7 +22,21 @@ public class ServerLive extends ServerAbstract{
 
 	@Override
 	public List<String> getQuote(String symbol) {
-		return quotePort.getQuote(symbol);
+		
+		List<String> quoteData = quotePort.getQuote(symbol);
+		
+		//convert date to our format standard
+		SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+		try {
+		    String formatConverted = myDateFormat.format(serverFormat.parse(quoteData.get(2)));
+		    System.out.println(formatConverted);
+		    quoteData.set(2, formatConverted);
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
+		
+		return quoteData;
 	}
 
 }

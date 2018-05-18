@@ -1,3 +1,6 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import stockquotetimelapse.StockQuoteTimeLapseService;
@@ -21,7 +24,20 @@ public class ServerHistoric extends ServerAbstract{
 
 	@Override
 	public List<String> getQuote(String symbol) {
-		return this.port.getStockQuote(symbol);
+		List<String> quoteData = port.getStockQuote(symbol);
+		
+		//convert date to our format standard
+		SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat serverFormat = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+		    String formatConverted = myDateFormat.format(serverFormat.parse(quoteData.get(2)));
+		    System.out.println(formatConverted);
+		    quoteData.set(2, formatConverted);
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
+		
+		return quoteData;
 	}
 	
 	public List<String> getSymbols(){

@@ -1,5 +1,5 @@
 
-public class Main {
+public class Main { 
 	
 	public static void main(String[] args) {
 		//Controller takes a view as it's parameter
