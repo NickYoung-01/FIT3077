@@ -8,7 +8,6 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import Model.Observer;
 import Model.Stock;
 
 public class StockMonitor extends Observer {

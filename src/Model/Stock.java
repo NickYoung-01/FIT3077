@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ServerAbstract.ServerAbstract;
+import View.Observer;
 
 public class Stock extends Subject {
 

@@ -1,4 +1,4 @@
-package Model;
+package View;
 
 public abstract class Observer {
 	public abstract void update();

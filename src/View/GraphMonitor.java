@@ -20,7 +20,6 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
-import Model.Observer;
 import Model.Stock;
 
 public class GraphMonitor extends Observer {

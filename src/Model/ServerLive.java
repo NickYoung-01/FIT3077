@@ -1,4 +1,4 @@
-package ServerAbstract;
+package Model;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
