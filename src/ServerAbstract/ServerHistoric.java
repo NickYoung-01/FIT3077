@@ -30,7 +30,6 @@ public class ServerHistoric extends ServerAbstract{
 		//convert date to our format standard
 		SimpleDateFormat serverFormat = new SimpleDateFormat("dd/MM/yyyy");
 		quoteData.set(2, super.convertDate(quoteData.get(2), serverFormat));
-		System.out.println(quoteData.get(2));
 		
 		//convert price from cents to dollars
 		double price = Double.parseDouble(quoteData.get(1)) / 100;
