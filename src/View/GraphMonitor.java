@@ -25,9 +25,9 @@ import Model.Stock;
 
 public class GraphMonitor extends Observer {
 
-//	private TimeSeries series;
 	private TimeSeriesCollection stockDataSet;
 	
+	//holds a reference to the stock
 	private Stock stock;
 	private JFrame frame;
 	
@@ -39,8 +39,6 @@ public class GraphMonitor extends Observer {
 		
 		XYDataset stockDataset = createStockDataset();
 
-//		this.series = new TimeSeries("Price");
-//		final TimeSeriesCollection dataSet = new TimeSeriesCollection(this.series);
 		final JFreeChart chart = createChart(stockDataset);
 		
 		//We want to perform our own closing action
@@ -64,15 +62,17 @@ public class GraphMonitor extends Observer {
 		int yCor = ((dim.height / 2) + (frame.getHeight() / 2));
 		frame.setLocation(xCord, yCor);
 
-        //Our chart needs a chartpanel
+        //Our chart needs a chartPanel
         final ChartPanel chartPanel = new ChartPanel(chart);
         
         final XYPlot plot = chart.getXYPlot();
         //format xaxis to have a date format
         DateAxis xaxis = (DateAxis) plot.getDomainAxis();
+        //format the xaxis's label to our datetime
         xaxis.setDateFormatOverride(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
         xaxis.setVerticalTickLabels(true);
         
+        //set colour of monitor
         plot.setBackgroundPaint(Color.white);
         plot.setDomainGridlinesVisible(true);
         plot.setDomainGridlinePaint(Color.lightGray);
@@ -92,12 +92,13 @@ public class GraphMonitor extends Observer {
 		frame.setVisible(true);
 	}
 	
+	//create the dataset that will store the stock data over time
 	private XYDataset createStockDataset() {
 		stockDataSet = new TimeSeriesCollection();
 		TimeSeries series = new TimeSeries("Price");
+		//the x value will be our datetime, and y will be the price
 		series.add(new Second(stock.getDateTime()), Double.parseDouble(stock.getLastTrade()));
 		stockDataSet.addSeries(series);
-		System.out.println(stockDataSet.getSeriesCount());
 		return stockDataSet;
 	}
 	
@@ -106,7 +107,7 @@ public class GraphMonitor extends Observer {
 	            stock.getSymbol() + " TimeSeries Chart",
 	            "Time",//x-axis
 	            "Price (AUD)",//y-axis
-	            stockDataset,
+	            stockDataset, //dataset
 	            true,
 	            false,
 	            false
@@ -115,12 +116,10 @@ public class GraphMonitor extends Observer {
 
 	@Override
 	public void update() {
-		System.out.print("im here");
 		RegularTimePeriod timePeriod = new Second(stock.getDateTime());
 		if (stockDataSet.getSeriesCount() >= 1) {
-			//we never get seconds from the web server...
+			//add the new data to our DataSet
 			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
-			System.out.println(stockDataSet.getSeries(0).getItemCount() + " " + stock.getLastTrade() + " " + stock.getDateTime());
 		}
 	}
 	

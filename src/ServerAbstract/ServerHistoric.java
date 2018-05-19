@@ -24,6 +24,7 @@ public class ServerHistoric extends ServerAbstract{
 
 	@Override
 	public List<String> getQuote(String symbol) {
+		//get the data from the server
 		List<String> quoteData = port.getStockQuote(symbol);
 		
 		//convert date to our format standard

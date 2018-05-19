@@ -64,10 +64,10 @@ public class StockMonitor extends Observer {
 	
 	@Override
 	public void update() {
+		//update our labels to display the new data
 		lastPriceLabel.setText("Last Price: " + stock.getLastTrade() + " AUD");
 		dateLabel.setText("Date: " + stock.getDate());
 		timeLabel.setText("Time: " + stock.getTime());
-		System.out.println(stock.getTime() + " " + stock.getLastTrade());
 	}
 	
 	//Remove this observer from Stock and close JFrame
