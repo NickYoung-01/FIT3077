@@ -16,6 +16,7 @@ public class ServerHistoric extends ServerAbstract{
 		port = quote.getStockQuoteTimeLapseServiceHttpSoap11Endpoint();
 		
 	}
+	
 	@Override
 	public List<String> getFieldNames() {
 		return this.port.getFieldNames().getReturn();

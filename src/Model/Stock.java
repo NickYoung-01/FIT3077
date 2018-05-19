@@ -18,7 +18,7 @@ public class Stock extends Subject {
 	private String time;
 	private int timeLimit;
 	private ServerAbstract server;
-	public Timer timer;
+	private Timer timer;
 	
 	public Stock(String symbol, ServerAbstract server, int timeLimit) {
 		this.server = server;
@@ -28,7 +28,7 @@ public class Stock extends Subject {
 	}
 	
 	//Get the data from the webservice
-	public void fetchData() {
+	private void fetchData() {
 		List<String> quoteData = this.server.getQuote(symbol);
 		setLastTrade((String) quoteData.get(1));
 		setDate((String) quoteData.get(2));
@@ -63,17 +63,19 @@ public class Stock extends Subject {
 		}
 	}
 	
-	public void startTimer(int timeLimit) {
+	//start the timer that will automate the collection of data
+	private void startTimer(int timeLimit) {
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 		    @Override
 		    public void run() { 
 			    	fetchData();	
 		    }
-		    //Perform run every timerMinutes, i.e every 5 minutes
+		    //Perform run every timerLimit, timeLimit is in seconds
 		 }, 0, 1000 * timeLimit);
 	}
 
+	//Does this stock actually exist
 	public boolean isValid(){
 		List<String> result = this.server.getQuote(symbol);		
 		if (result.get(1).equals("Unset")){
@@ -104,7 +106,7 @@ public class Stock extends Subject {
 		return lastTrade;
 	}
 
-	public void setLastTrade(String lastTrade) {
+	private void setLastTrade(String lastTrade) {
 		this.lastTrade = lastTrade;
 	}
 	
@@ -113,6 +115,7 @@ public class Stock extends Subject {
 		return date;
 	}
 
+	//get date time in yyyy-MM-ddHH:mm format
 	public Date getDateTime() {
 		Date dateTime = null;
 		String updateTime = "";
@@ -130,7 +133,7 @@ public class Stock extends Subject {
 		return dateTime;
 	}
 
-	public void setDate(String date) { 
+	private void setDate(String date) { 
 		this.date = date;
 	}
 
@@ -138,7 +141,7 @@ public class Stock extends Subject {
 		return time;
 	}
 
-	public void setTime(String time) {
+	private void setTime(String time) {
 		this.time = time;
 	}
 	
