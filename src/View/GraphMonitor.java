@@ -1,39 +1,34 @@
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
+package View;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.data.time.Minute;
 import org.jfree.data.time.RegularTimePeriod;
 import org.jfree.data.time.Second;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
-import View.Observer;
-import javafx.scene.chart.NumberAxis;
+import Model.Stock;
 
 public class GraphMonitor extends Observer {
 
-//	private TimeSeries series;
 	private TimeSeriesCollection stockDataSet;
 	
+	//holds a reference to the stock
 	private Stock stock;
 	private JFrame frame;
-	private final JFreeChart chart;
 	
 	public GraphMonitor(Stock stock) {
 		this.stock = stock;
@@ -43,9 +38,7 @@ public class GraphMonitor extends Observer {
 		
 		XYDataset stockDataset = createStockDataset();
 
-//		this.series = new TimeSeries("Price");
-//		final TimeSeriesCollection dataSet = new TimeSeriesCollection(this.series);
-		this.chart = createChart(stockDataset);
+		final JFreeChart chart = createChart(stockDataset);
 		
 		//We want to perform our own closing action
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -68,30 +61,26 @@ public class GraphMonitor extends Observer {
 		int yCor = ((dim.height / 2) + (frame.getHeight() / 2));
 		frame.setLocation(xCord, yCor);
 
-        //Our chart needs a chartpanel
+        //Our chart needs a chartPanel
         final ChartPanel chartPanel = new ChartPanel(chart);
         
         final XYPlot plot = chart.getXYPlot();
+        //format xaxis to have a date format
+        DateAxis xaxis = (DateAxis) plot.getDomainAxis();
+        //format the xaxis's label to our datetime
+        xaxis.setDateFormatOverride(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        xaxis.setVerticalTickLabels(true);
+        
+        //set colour of monitor
         plot.setBackgroundPaint(Color.white);
         plot.setDomainGridlinesVisible(true);
         plot.setDomainGridlinePaint(Color.lightGray);
         plot.setRangeGridlinesVisible(true);
         plot.setRangeGridlinePaint(Color.lightGray);
 
-        ValueAxis xaxis = plot.getDomainAxis();
-        //this makes the axis auto grow with the actual time
-        xaxis.setAutoRange(true);
-
-        //the x axis will show the time in a timeLimit increment
-        //show 20 of these increments as our x axis
-        //this is a fix width, so will need to implement slider to see history
-//        xaxis.setFixedAutoRange((1000.0 * stock.getTimeLimit())*20);
-       
-        xaxis.setVerticalTickLabels(true);
-
         ValueAxis yaxis = plot.getRangeAxis();
-        Double lastTrade = Double.parseDouble(stock.getLastTrade());
-        yaxis.setRange(0.99*lastTrade, 1.01*lastTrade);
+        //yaxis also automatically grows
+        yaxis.setAutoRange(true);
 
         //Set the size of our chart's panel
         chartPanel.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -102,49 +91,34 @@ public class GraphMonitor extends Observer {
 		frame.setVisible(true);
 	}
 	
+	//create the dataset that will store the stock data over time
 	private XYDataset createStockDataset() {
 		stockDataSet = new TimeSeriesCollection();
 		TimeSeries series = new TimeSeries("Price");
+		//the x value will be our datetime, and y will be the price
 		series.add(new Second(stock.getDateTime()), Double.parseDouble(stock.getLastTrade()));
 		stockDataSet.addSeries(series);
-		System.out.println(stockDataSet.getSeriesCount());
 		return stockDataSet;
 	}
 	
 	private JFreeChart createChart(XYDataset stockDataset) {
-		JFreeChart graph = ChartFactory.createTimeSeriesChart(
+		return ChartFactory.createTimeSeriesChart(
 	            stock.getSymbol() + " TimeSeries Chart",
 	            "Time",//x-axis
-	            "Price",//y-axis
-	            stockDataset,
-	            false,
+	            "Price (AUD)",//y-axis
+	            stockDataset, //dataset
+	            true,
 	            false,
 	            false
 	        );
-		return graph;
-		
-	}
-	
-	public void updateAxis(double min, double max){
-		XYPlot plot = chart.getXYPlot();
-		ValueAxis yaxis = plot.getRangeAxis();
-        yaxis.setRange(0.995*min, 1.005*max);
 	}
 
 	@Override
 	public void update() {
-		System.out.print("im here");
 		RegularTimePeriod timePeriod = new Second(stock.getDateTime());
 		if (stockDataSet.getSeriesCount() >= 1) {
-			//we never get seconds from the web server...
+			//add the new data to our DataSet
 			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
-//			stockDataSet.getSeries(0).addOrUpdate(new Second(), Double.parseDouble(stock.getLastTrade()));
-			
-			//Update axis to more clearly represent data
-			TimeSeries data = stockDataSet.getSeries(0);
-			this.updateAxis(data.getMinY(),data.getMaxY());
-			System.out.println(stockDataSet.getSeries(0).getItemCount());
-
 		}
 	}
 	

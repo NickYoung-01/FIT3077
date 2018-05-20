@@ -1,3 +1,4 @@
+package View;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -12,19 +13,19 @@ public class HomeView extends JFrame {
 	private JTextField stockInputField = new JTextField(10);
 	private JButton monitorStockButton = new JButton("Monitor");
 	
-	HomeView() {
+	public HomeView() {
 		JPanel mainViewPanel = new JPanel();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(380, 500);
 		this.setTitle("Stock Monitor");
 		
+		//The label for the options in the combo boxes
 		String[] monitorTypes = {"Text Monitor", "Graph Monitor"};
 		String[] serviceTypes = {"Live", "Historic"};
 		
+		//create new combo boxes with their options
 		monitorType = new JComboBox(monitorTypes);
-		mainViewPanel.add(monitorType);
-		
 		serviceType = new JComboBox(serviceTypes);
 		availableStock = new JComboBox();
 		
@@ -38,7 +39,7 @@ public class HomeView extends JFrame {
 		this.setLocation(xCord, yCor);
 		this.setResizable(false);
 	
-
+		mainViewPanel.add(monitorType);
 		mainViewPanel.add(availableStock);
 		availableStock.setEnabled(false);
 		mainViewPanel.add(stockInputField);
@@ -49,18 +50,26 @@ public class HomeView extends JFrame {
 		this.add(mainViewPanel);
 	}
 	
-	public void handleServiceChange() {
-		if (stockInputField.isEnabled()) {
-			stockInputField.setEnabled(false);
-//			stockInputField.hide();
-			availableStock.setEnabled(true);
-		} else {
-			availableStock.setEnabled(false);
-			stockInputField.setEnabled(true);
-//			stockInputField.show();
+	//when the serviceType combo box is clicked
+	public void handleServiceChange(int index) {
+		switch (index) {
+		//if the selected index of the combo box is 0, which means live
+		//we should only allow user to enter into the text input field
+			case 0:	availableStock.setEnabled(false);
+					stockInputField.setEnabled(true);
+					break;
+		//if the selected index of the combo box is 1, which means historic (timelapse)
+		//there are only certain stocks that can be monitored, hence drop down is enabled
+		//and input field is disabled
+			case 1:	stockInputField.setEnabled(false);
+					availableStock.setEnabled(true);
+					break;
+			default:
+					break;
 		}
 	}
 	
+	//add the stocks that we can monitor for the historic server (timelapse)
 	public void setAvailableStockList(String stock) {
 		availableStock.addItem(stock);
 	}
@@ -82,16 +91,16 @@ public class HomeView extends JFrame {
 	}
 	
 	//Creates a listener for the service type jcombobox
-	void addServiceTypeComboListener(ActionListener listenForComboChange) {
+	public void addServiceTypeComboListener(ActionListener listenForComboChange) {
 		serviceType.addActionListener(listenForComboChange);
 	}
 	
 	//Creates a listener for the button.
-	void addMonitorButtonListener(ActionListener listenForMonitorButton) {
+	public void addMonitorButtonListener(ActionListener listenForMonitorButton) {
 		monitorStockButton.addActionListener(listenForMonitorButton);
 	}
 	
-	void displayErrorMessage(String errorMessage) {
+	public void displayErrorMessage(String errorMessage) {
 		JOptionPane.showMessageDialog(this, errorMessage);
 	}
 }

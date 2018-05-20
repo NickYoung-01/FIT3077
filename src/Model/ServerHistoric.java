@@ -1,3 +1,5 @@
+package Model;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import stockquotetimelapse.StockQuoteTimeLapseService;
@@ -14,6 +16,7 @@ public class ServerHistoric extends ServerAbstract{
 		port = quote.getStockQuoteTimeLapseServiceHttpSoap11Endpoint();
 		
 	}
+	
 	@Override
 	public List<String> getFieldNames() {
 		return this.port.getFieldNames().getReturn();
@@ -21,17 +24,22 @@ public class ServerHistoric extends ServerAbstract{
 
 	@Override
 	public List<String> getQuote(String symbol) {
-		return this.port.getStockQuote(symbol);
+		//get the data from the server
+		List<String> quoteData = port.getStockQuote(symbol);
+		
+		//convert date to our format standard
+		SimpleDateFormat serverFormat = new SimpleDateFormat("dd/MM/yyyy");
+		quoteData.set(2, super.convertDate(quoteData.get(2), serverFormat));
+		
+		//convert price from cents to dollars
+		double price = Double.parseDouble(quoteData.get(1)) / 100;
+		quoteData.set(1, Double.toString(price));
+		
+		return quoteData;
 	}
 	
 	public List<String> getSymbols(){
-		List<String> symbols = this.port.getSymbols().getReturn();
-		int i=0;
-		for (String stock:symbols){
-			symbols.set(i, stock.substring(0, 3));
-			i++;
-		}
-		return symbols;
+		return port.getSymbols().getReturn();
 	}
 	
 
