@@ -1,6 +1,7 @@
 package View;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -14,10 +15,10 @@ public class HomeView extends JFrame {
 	private JButton monitorStockButton = new JButton("Monitor");
 	
 	public HomeView() {
-		JPanel mainViewPanel = new JPanel();
+		//grid layout with 2 columns
+		JPanel mainViewPanel = new JPanel(new GridLayout(0, 2));
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(380, 500);
 		this.setTitle("Stock Monitor");
 		
 		//The label for the options in the combo boxes
@@ -39,15 +40,21 @@ public class HomeView extends JFrame {
 		this.setLocation(xCord, yCor);
 		this.setResizable(false);
 	
+		mainViewPanel.add(new JLabel("Monitor Type: "));
 		mainViewPanel.add(monitorType);
+		mainViewPanel.add(new JLabel("Stock List: "));
 		mainViewPanel.add(availableStock);
 		availableStock.setEnabled(false);
+		mainViewPanel.add(new JLabel("Enter Stock: "));
 		mainViewPanel.add(stockInputField);
+		mainViewPanel.add(new JLabel("Choose Service: "));
 		mainViewPanel.add(serviceType);
+		mainViewPanel.add(new JLabel(""));
 		mainViewPanel.add(monitorStockButton);
 		
 		//adding the panel to the jframe
 		this.add(mainViewPanel);
+		this.pack();
 	}
 	
 	//when the serviceType combo box is clicked

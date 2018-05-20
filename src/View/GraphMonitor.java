@@ -117,7 +117,7 @@ public class GraphMonitor extends Observer {
 	public void update() {
 		RegularTimePeriod timePeriod = new Second(stock.getDateTime());
 		if (stockDataSet.getSeriesCount() >= 1) {
-			//add the new data to our DataSet
+			//add the new data to our DataSet 
 			stockDataSet.getSeries(0).addOrUpdate(timePeriod, Double.parseDouble(stock.getLastTrade()));
 		}
 	}
